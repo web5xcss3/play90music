@@ -315,12 +315,12 @@
 			-webkit-align-items: center;
 			-moz-align-items: center;
 			align-items: center;
-			-webkit-box-flex: 0 0 16.666666666%;
-			-webkit-flex: 0 0 16.666666666%;
-			-moz-box-flex: 0 0 16.666666666%;
-			-moz-flex: 0 0 16.666666666%;
-			-ms-flex: 0 0 16.666666666%;
-			flex: 0 0 16.666666666%;
+			-webkit-box-flex: 0 0 25%;
+			-webkit-flex: 0 0 25%;
+			-moz-box-flex: 0 0 25%;
+			-moz-flex: 0 0 25%;
+			-ms-flex: 0 0 25%;
+			flex: 0 0 25%;
 			border-bottom: 0;
 			margin-bottom: 1em;
 			padding-bottom: 1em;
