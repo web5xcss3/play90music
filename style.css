@@ -225,6 +225,10 @@
 	.align-right {
 		text-align: right;
 	}
+
+        .modules {
+		margin-top: 2em;
+        }
 	
 	header.major {
 		text-align: center;
