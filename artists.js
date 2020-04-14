@@ -90,4 +90,4 @@
 
 })(jQuery);
 
-$(".background-image").randomImage();
+$(".artists").randomImage();
