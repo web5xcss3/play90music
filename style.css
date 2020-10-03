@@ -79,6 +79,10 @@
 	html {
 		box-sizing: border-box;
 	}
+
+        html {
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
 	
 	*, *:before, *:after {
 		box-sizing: inherit;
@@ -111,6 +115,8 @@
 		font-weight: 400;
 		line-height: 1.25rem;
 	}
+
+        
 	
 	@media screen and (max-width: 1680px) {
 		
