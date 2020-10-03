@@ -115,6 +115,10 @@
 		font-weight: 400;
 		line-height: 1.25rem;
 	}
+ 
+        button, input, select, textarea {
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
 
         
 	
