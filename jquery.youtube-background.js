@@ -286,7 +286,7 @@ YoutubeBackground.prototype.buildHTML = function () {
 		wrapper.style[property] = wrapper_styles[property];
 	}
 
-	// wrapper.parentNode.style.position = 'relative';
+	wrapper.parentNode.style.position = 'relative';
 
 	if (this.is_mobile && !this.params.mobile) {
 		return wrapper;
@@ -298,9 +298,9 @@ YoutubeBackground.prototype.buildHTML = function () {
 		controls.className = 'video-background-controls';
 
 		controls.style.position = 'absolute';
-		controls.style.top = '10px';
-		controls.style.right = '10px';
-		controls.style['z-index'] = 2;
+		controls.style.top = '18px';
+		controls.style.right = '20px';
+		controls.style['z-index'] = 10000;
 
 		this.controls_element = controls;
 		wrapper.parentNode.appendChild(controls);
