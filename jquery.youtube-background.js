@@ -68,7 +68,7 @@ function YoutubeBackground(elem, params, id, uid) {
 		'autoplay': true,
 		'muted': true,
 		'loop': true,
-		'mobile': true,
+		'mobile': false,
 		'load-background': true,
 		'resolution': '16:9',
 		'offset': 200
@@ -286,7 +286,7 @@ YoutubeBackground.prototype.buildHTML = function () {
 		wrapper.style[property] = wrapper_styles[property];
 	}
 
-	wrapper.parentNode.style.position = 'relative';
+	wrapper.parentNode.style.position = 'fixed';
 
 	if (this.is_mobile && !this.params.mobile) {
 		return wrapper;
@@ -298,9 +298,9 @@ YoutubeBackground.prototype.buildHTML = function () {
 		controls.className = 'video-background-controls';
 
 		controls.style.position = 'absolute';
-		controls.style.top = '18px';
+		controls.style.top = '19px';
 		controls.style.right = '20px';
-		controls.style['z-index'] = 10000;
+		controls.style['z-index'] = 2;
 
 		this.controls_element = controls;
 		wrapper.parentNode.appendChild(controls);
