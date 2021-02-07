@@ -588,7 +588,7 @@
         @media screen and (max-width: 480px) {
 		
 		body.app:before, body.homepage:before {
-			font-size: 3em;
+			font-size: 2em;
 		}
 	}
 
