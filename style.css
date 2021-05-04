@@ -797,6 +797,7 @@
 
                         .list-data-desc p {
 				margin: 0;
+				line-height: 1.25em;
                         }
 			
 	@media only screen and (min-width: 560px) {
