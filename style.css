@@ -794,6 +794,10 @@
 			.list-data-desc h2 {
 				text-align:left;
 			}
+
+                        .list-data-desc p {
+				margin: 0;
+                        }
 			
 	@media only screen and (min-width: 560px) {
 
@@ -893,6 +897,7 @@
 			}
 			
 			.list-data-desc {
+				text-align: center;
 				margin-left: 0;
 				padding-right: 0;
 				max-width: 12.5em;
