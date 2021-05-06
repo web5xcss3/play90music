@@ -129,7 +129,7 @@
 			transition: none !important;
 		}
 
-		body.homepage, body.opened-player {
+		body.landing {
 			padding-top: 0;
 		}
 
