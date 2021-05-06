@@ -18,6 +18,14 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+.slick-slider {
+    margin: 0 -0.75em;
+}
+.slick-slide {
+    margin-right: 0.75em;
+    margin-left: 0.75em;
+}
+
 .slick-list
 {
     position: relative;
