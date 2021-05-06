@@ -96,7 +96,7 @@ function YoutubeBackground(elem, params, id, uid) {
 				initialState: false,
 				stateClassName: 'paused',
 				condition_parameter: 'autoplay',
-				stateChildClassNames: ['fa-pause-circle', 'fa-play-circle'],
+				stateChildClassNames: ['fa-pause', 'fa-play'],
 				actions: ['play', 'pause']
 			});
 		}
@@ -298,9 +298,9 @@ YoutubeBackground.prototype.buildHTML = function () {
 		controls.className = 'video-background-controls';
 
 		controls.style.position = 'fixed';
-		controls.style.top = '19px';
+		controls.style.top = '16px';
 		controls.style.right = '20px';
-		controls.style['z-index'] = 10000;
+		controls.style['z-index'] = 1000;
 
 		this.controls_element = controls;
 		wrapper.parentNode.appendChild(controls);
