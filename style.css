@@ -1908,7 +1908,7 @@
 			}
 
 			.highlight.style1:before {
-				background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 60%);
+				background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
 			}
 			
 			@media screen and (max-width: 736px) {
@@ -1921,7 +1921,7 @@
 				}
 
 					.highlight:before {
-						background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 60%);
+						background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
 					}
 				
 				.highlight.style1 {
