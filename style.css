@@ -1931,7 +1931,7 @@
 			}
 
 		.highlight .fullscreen {
-			background-attachment: fixed;
+			background-attachment: scroll;
 			background-color: #000;
 			background-position: center center;
 			background-repeat: no-repeat;
