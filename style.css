@@ -1321,18 +1321,6 @@
 		width: 100%;
 		z-index: 10000;
 	}
- 
-                .player:before {
-			content: '';
-			position: absolute;
-			height: 100%;
-			left: 0;
-			top: 0;
-			width: 100%;
-			bottom: 0;
-			background: rgba(0,0,0, 0.25);
-			z-index: -1;
-		}
 
 		.player.opened {
 			-webkit-transform: translateY(70%);
@@ -1398,7 +1386,7 @@
 			align-items: center;
 		}
 
-			.player-info img {
+			.player-info-photo {
 				-webkit-border-radius: 50px;
 				-moz-border-radius: 50px;
 				-ms-border-radius: 50px;
@@ -1505,7 +1493,7 @@
 							-ms-border-radius: 50px;
 							-o-border-radius: 50px;
 							border-radius: 50px;
-							background-color: rgba(0,0,0, 0.45);
+							background-color: #2f2f2f;
 							color: #ffffff !important;
 							display: inline-block;
 							font-size: 1.125em;
