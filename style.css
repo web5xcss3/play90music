@@ -68,10 +68,6 @@
 		appearance: none;
 	}
 
-input {
-		outline: 0;
-	}
-	
 	iframe {
 		-moz-transition: opacity 500ms ease-in-out;
 		-webkit-transition: opacity 500ms ease-in-out;
@@ -308,12 +304,6 @@ input {
 			line-height: 2.25em;
 		}
 
-.grid {
-		max-width: 73.75rem;
-		margin: 0 auto;
-		padding: 0 1.25rem;
-	}
-		
 /* Loader */
 
 	@-moz-keyframes spinner-show {
@@ -564,87 +554,7 @@ input {
 			}
 			
 		}
-		
-/* Search */
 
-	#searchPanel {
-		-webkit-transform: translate3d(0, 0, 0);
-		-moz-transform: translate3d(0, 0, 0);
-		-ms-transform: translate3d(0, 0, 0);
-		-o-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
-		-webkit-transform: translateY(-100%);
-		-moz-transform: translateY(-100%);
-		-ms-transform: translateY(-100%);
-		-o-transform: translateY(-100%);
-		transform: translateY(-100%);
-		-moz-backface-visibility: hidden;
-		-webkit-backface-visibility: hidden;
-		-ms-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: -webkit-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-		-webkit-transition-delay: 100ms;
-		-moz-transition: -moz-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms;
-		-o-transition: -o-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms;
-		transition: transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms;
-		background: #000000;
-		padding: 1.25rem 0;
-		position: fixed;
-		top: 0;
-		z-index: 10000;
-		width: 100%;
-	}
-
-		#searchPanel .search-content {
-			width: 100%;
-			position: relative;
-		}
-
-		#searchPanel .search-field {
-			border: 0;
-			background: #212121;
-			font-size: 1.125rem;
-			border: solid 1px #333333;
-			color: #909090;
-			height: 2rem;
-			line-height: 0;
-			width: 90%;
-		}
-
-			#searchPanel .search-field::-webkit-input-placeholder {
-				color: #909090;
-			}
-
-		#searchPanel .search-close-button {
-			font-size: 2rem;
-			color: #909090;
-			position: absolute !important;
-			right: 0;
-			top: 0;
-			cursor: pointer;
-		}
-
-		@media only screen and (min-width: 30rem) {
-
-			#searchPanel .search-field {
-				font-size: 1.25rem;
-				height: 2.875rem;
-			}
-
-			#searchPanel .search-close-button {
-				font-size: 2.875rem;
-			}
-
-		}
-
-		body.searchPanel-visible #searchPanel {
-			-webkit-transform: translateY(0%);
-			-moz-transform: translateY(0%);
-			-ms-transform: translateY(0%);
-			-o-transform: translateY(0%);
-			transform: translateY(0%);
-		}
-	
 /* Box */
 
 	.box {
