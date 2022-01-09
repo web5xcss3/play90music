@@ -67,6 +67,10 @@
 		-ms-appearance: none;
 		appearance: none;
 	}
+
+input {
+		outline: 0;
+	}
 	
 	iframe {
 		-moz-transition: opacity 500ms ease-in-out;
@@ -303,6 +307,12 @@
 			font-size: 2em;
 			line-height: 2.25em;
 		}
+
+.grid {
+		max-width: 73.75rem;
+		margin: 0 auto;
+		padding: 0 1.25rem;
+	}
 		
 /* Loader */
 
