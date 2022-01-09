@@ -22,7 +22,7 @@
             $body.removeClass('is-preload');
         }, 5000);
     });
-  
+
     // Header.
     if ($header.hasClass('alt') &&
         $content.length > 0) {
@@ -52,31 +52,31 @@
         $('#nav > ul > li a').removeClass("current-item");
         $(this).addClass("current-item")
     });
-  
-  // SearchPanel.
-		$('#searchPanel')
-			.append('<a href="#searchPanel" class="close"></a>')
-			.appendTo($body)
-			.panel({
-				delay: 500,
-				hideOnClick: true,
-				hideOnSwipe: true,
-				resetScroll: true,
-				resetForms: true,
-				side: 'right',
-				target: $body,
-				visibleClass: 'searchPanel-visible'
-			});
-      
-    // Filter Search.
-	    $("#txtSearch").keyup(function(){
-		    var texto = $(this).val();
 
-		    $("li.list-data-item").css("display", "flex");
-		    $("li.list-data-item").each(function(){
-			    if($(this).text().toUpperCase().indexOf(texto.toUpperCase()) < 0)
-			        $(this).css("display", "none");
-		    });
-	    });
+    // SearchPanel.
+    $('#searchPanel')
+        .append('<a href="#searchPanel" class="close"></a>')
+        .appendTo($body)
+        .panel({
+            delay: 500,
+            hideOnClick: true,
+            hideOnSwipe: true,
+            resetScroll: true,
+            resetForms: true,
+            side: 'right',
+            target: $body,
+            visibleClass: 'searchPanel-visible'
+        });
+
+    // Filter Search.
+    $("#txtSearch").keyup(function() {
+        var texto = $(this).val();
+
+        $("li.list-data-item").css("display", "flex");
+        $("li.list-data-item").each(function() {
+            if ($(this).text().toUpperCase().indexOf(texto.toUpperCase()) < 0)
+                $(this).css("display", "none");
+        });
+    });
 
 })(jQuery);
