@@ -1554,6 +1554,18 @@
 					width: 5em
 				}
 
+                        #header .logo .mobile-logo {
+				display: none;
+                        }
+
+                        @media screen and (max-width: 736px) {
+				
+				#header .logo .desktop-logo {
+					display: none;
+				}
+				
+                        }
+
 		#header nav > ul {
 			display: -moz-flex;
 			display: -webkit-flex;
