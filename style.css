@@ -1551,7 +1551,7 @@
 			}
 
 				#header .logo a img {
-					width: 5em
+					height: 1.5em
 				}
 
                         #header .logo .mobile-logo {
@@ -1562,6 +1562,10 @@
 				
 				#header .logo .desktop-logo {
 					display: none;
+				}
+				
+				#header .logo .mobile-logo {
+					display: block;
 				}
 				
                         }
