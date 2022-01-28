@@ -1849,6 +1849,7 @@
 		}
 		
 		#search .search-field {
+			background: #1d1d1d;
 			border: 0;
 			font-size: 1.375em;
 			color: #909090;
