@@ -1699,7 +1699,7 @@
 	}
 
 		.highlight.style1 {
-			position: absolute;
+			position: fixed;
 			left: 0;
 			top: 0;
 			width: 100%;
@@ -1717,7 +1717,7 @@
 			height: 100%;
 			left: 0;
 			opacity: 0;
-			position: absolute;
+			position: fixed;
 			top: 0;
 			width: 100%;
 			z-index: 1;
@@ -1727,7 +1727,7 @@
 			content: '';
 			height: 100%;
 			left: 0;
-			position: absolute;
+			position: fixed;
 			top: 0;
 			width: 100%;
 			z-index: 1;
@@ -1766,11 +1766,14 @@
 			background-position: center center;
 			background-repeat: no-repeat;
 			background-size: cover;
-			height: 100%;
-			left: 0;
-			position: absolute;
+			filter:blur(50px);
+			height: 106%;
+			left: -3%;
+			position: fixed;
 			top: 0;
-			width: 100%;
+			width: 106%;
+			
+			
 		}
 
 		.highlight .content {
@@ -1829,7 +1832,7 @@
 		-moz-transition: -moz-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms;
 		-o-transition: -o-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms;
 		transition: transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms;
-		background: #1d1d1d;
+		background: #000;
 		padding: 1.25em 0;
 		position: fixed;
 		top: 0;
@@ -1849,7 +1852,7 @@
 		}
 		
 		#search .search-field {
-			background: #1d1d1d;
+			background: #000;
 			border: 0;
 			font-size: 1.375em;
 			color: #909090;
