@@ -1898,6 +1898,15 @@
 			-o-transform:translateY(0%);
 			transform:translateY(0%)
 		}
+   
+                #content.view {
+			position: fixed;
+			height: 100%;
+			left: 0;
+			top: 0;
+			width: 100%;
+			overflow-y: scroll;
+                }
 
 /* Footer */
 
