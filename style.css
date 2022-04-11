@@ -1699,7 +1699,7 @@
 	}
 
 		.highlight.style1 {
-			position: fixed;
+			position: absolute;
 			left: 0;
 			top: 0;
 			width: 100%;
@@ -1725,6 +1725,7 @@
 
 		.highlight:before, .highlight.style1:before {
 			content: '';
+			background: rgba(0,0,0,.6);
 			height: 100%;
 			left: 0;
 			position: absolute;
