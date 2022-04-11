@@ -1717,7 +1717,7 @@
 			height: 100%;
 			left: 0;
 			opacity: 0;
-			position: fixed;
+			position: absolute;
 			top: 0;
 			width: 100%;
 			z-index: 1;
@@ -1725,10 +1725,9 @@
 
 		.highlight:before, .highlight.style1:before {
 			content: '';
-			background: rgba(0,0,0,.6);
 			height: 100%;
 			left: 0;
-			position: fixed;
+			position: absolute;
 			top: 0;
 			width: 100%;
 			z-index: 1;
@@ -1767,12 +1766,11 @@
 			background-position: center center;
 			background-repeat: no-repeat;
 			background-size: cover;
-			filter:blur(50px);
-			height: 106%;
-			left: -3%;
-			position: fixed;
+			height: 100%;
+			left: 0;
+			position: absolute;
 			top: 0;
-			width: 106%;
+			width: 100%;
 			
 			
 		}
@@ -1899,15 +1897,6 @@
 			transform:translateY(0%)
 		}
    
-                #content.view {
-			position: fixed;
-			height: 100%;
-			left: 0;
-			top: 0;
-			width: 100%;
-			overflow-y: scroll;
-                }
-
 /* Footer */
 
 	#footer {
@@ -1916,8 +1905,6 @@
 		max-width: 100%;
 		margin-top: 1em;
 		text-align: left;
-		position: absolute;
-		bottom: 0;
 	}
 
 		#footer .menu a {
