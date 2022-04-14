@@ -1725,7 +1725,7 @@
 
 		.highlight:before, .highlight.style1:before {
 			content: '';
-			background: rgba(0,0,0,.6);
+			background-image: linear-gradient( to bottom, rgba(0, 0, 0, .5), #000 );
 			height: 100%;
 			left: 0;
 			position: absolute;
@@ -1734,14 +1734,6 @@
 			z-index: 1;
 		}
 
-			.highlight:before {
-				background-image: linear-gradient(180deg, rgba(0,0,0,0) 35%, #000), linear-gradient(180deg, rgba(0,0,0, .5) 5%, transparent 20%), linear-gradient(270deg, transparent 30%, #000 80%);
-			}
-
-			.highlight.style1:before {
-				background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
-			}
-			
 			@media screen and (max-width: 736px) {
 				
 				.highlight {
@@ -1751,10 +1743,6 @@
 					text-align: center;
 				}
 
-					.highlight:before {
-						background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
-					}
-				
 				.highlight.style1 {
 					padding: 10em;
 				}
