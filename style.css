@@ -1137,11 +1137,11 @@
 	}
 
 		.player.opened {
-			-webkit-transform: translateY(70%);
-			-moz-transform: translateY(70%);
-			-ms-transform: translateY(70%);
-			-o-transform: translateY(70%);
-			transform: translateY(70%);
+			-webkit-transform: translateY(72%);
+			-moz-transform: translateY(72%);
+			-ms-transform: translateY(72%);
+			-o-transform: translateY(72%);
+			transform: translateY(72%);
 		}
 
 		.player.showmore {
