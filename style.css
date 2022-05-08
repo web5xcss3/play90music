@@ -1378,7 +1378,10 @@
 			margin-right: 1em;
 			height: 2.5em;
 			width: 2.5em;
+			border: 0;
+			color: #000;
 			font-size: 1.1em;
+			border-radius: 5em;
 		}
 
 			#bg .video-background-controls button:last-child {
@@ -1668,10 +1671,10 @@
 			background: transparent;
 			position: relative;
 			padding: 1em 0;
-		}
+            }
 	    
 		.homepage #header .logo a img {
-			width: 8.75em
+			height: 2.75em
 		}
 
 /* Highlight */
