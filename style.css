@@ -586,9 +586,6 @@
 			}
 
 				.box.post .box-post-desc h3, .box.post .box-post-desc p {
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
 					margin: 0;
 				}
 				
