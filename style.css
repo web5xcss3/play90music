@@ -537,6 +537,7 @@
 	
 		header.major h2 {
 			font-size: 2.35em;
+			margin: 0 0 2em 0;
 		}
 		
 		header.major p {
@@ -800,7 +801,7 @@
 				.list-data-desc {
 					margin-left: 0;
 					padding-right: 0;
-					max-width: 12.5em;
+					max-width: 12em;
 				}
 
 					.list-data-desc h2 {
