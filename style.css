@@ -565,8 +565,11 @@
 			-webkit-justify-content: space-between;
 			-ms-justify-content: space-between;
 			justify-content: space-between;
-			margin: 0 0 2em 0;
 		}
+                 
+                    header.major.special h2 {
+			    margin: 0 0 2em 0;
+                    }
 
 /* Box */
 
