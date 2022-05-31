@@ -1166,6 +1166,29 @@
 			height: 100%;
 		}
 
+                        .player.showmore .container {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -moz-flex;
+				display: -ms-flexbox;
+				display: flex;
+				-moz-flex-direction: column-reverse;
+				-webkit-flex-direction: column-reverse;
+				-ms-flex-direction: column-reverse;
+				flex-direction: column-reverse;
+				-moz-justify-content: space-between;
+				-webkit-justify-content: space-between;
+				-ms-justify-content: space-between;
+				justify-content: space-between;
+				height: 100%;
+			}
+
+			.player.showmore .player-info {
+				border-top: 1px solid rgba(255, 255, 255, 0.075);
+				margin-top: 1em;
+				padding-top: 1em;
+			}
+
 			.player.showmore .player-nav > ul > li a.icon-arrow-down {
 				-webkit-transform: rotate(0);
 				-moz-transform: rotate(0);
@@ -1176,13 +1199,14 @@
 
 			.player.showmore .player-embed {
 				position: relative;
-				padding-bottom: 56.25%;
-				height: 0;
+				/*padding-bottom: 56.25%;
+				height: 0;*/
 			}
 
 				.player.showmore .player-embed iframe {
 					position: absolute;
-					top: 1em;
+					/*top: 1em;*/
+					top: 0;
 					left: 0;
 					width: 100%;
 					height: 100%;
@@ -1348,9 +1372,10 @@
 							}
 
 		.player-embed {
-			border-top: 1px solid rgba(255, 255, 255, 0.075);
+			/*border-top: 1px solid rgba(255, 255, 255, 0.075);
 			margin-top: 1em;
-			padding-top: 1em;
+			padding-top: 1em;*/
+			padding-top: 2em;
 		}
 
 			.player-embed iframe {
