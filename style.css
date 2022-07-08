@@ -3224,8 +3224,6 @@
 		
 		#header .header-logo svg {
 			max-width: 5em;
-			height: inherit;
-			line-height: inherit;
 		}
 
 		#header nav {
