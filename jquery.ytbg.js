@@ -71,7 +71,7 @@ function YoutubeBackground(elem, params, id, uid) {
 		'mobile': true,
 		'load-background': true,
 		'resolution': '16:9',
-		'offset': 200
+		'offset': 2500
 	};
 
 	this.__init__ = function () {
