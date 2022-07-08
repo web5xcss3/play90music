@@ -68,6 +68,10 @@
 		appearance: none;
 	}
 	
+	svg:not(:root) {
+		overflow: hidden;
+	}
+	
 	:root {
 		--colors-black: #111;
 		--colors-white: #fff;
