@@ -2321,6 +2321,10 @@
 		
 		ul.list-data li .list-data-desc h3 {
 			margin: var(--space-zero);
+			font-size: 1em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 
 	.column {
