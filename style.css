@@ -2268,6 +2268,7 @@
 		}
 
 		.image.fit {
+			background-color: #1b1b1b;
 			display: block;
 			width: 100%;
 			height: 0;
@@ -3442,7 +3443,7 @@
 			position: absolute;
 			top: 0;
 			width: 100%;
-			background-image: linear-gradient(180deg, rgba(0,0,0,0) 35%, #000), linear-gradient(180deg, rgba(0,0,0, .5) 5%, transparent 20%), linear-gradient(270deg, transparent 30%, #000 80%);
+			background-image: linear-gradient(180deg, rgba(0,0,0,0) 25%, #000), linear-gradient(180deg, rgba(0,0,0, .5) 5%, transparent 30%), linear-gradient(270deg, transparent 30%, #000 80%);
 			z-index: 1;
 		}
 		
@@ -3680,7 +3681,7 @@
 			}
 
 				.highlight:before {
-					background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 60%);
+					background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 15%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
 				}
 				
 				.highlight.fullscreen {
