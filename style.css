@@ -2322,9 +2322,6 @@
 		
 		ul.list-data li .list-data-desc h3 {
 			font-size: 1em;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
 		}
 		
 		ul.list-data li .list-data-desc h3, 
