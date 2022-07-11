@@ -667,6 +667,10 @@
 		.box.post {
 			text-align: left;
 		}
+		
+		.box.post .box-post-desc h3 {
+			font-size: 1em;
+		}
 
 /* Icon */
 
