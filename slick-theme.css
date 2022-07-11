@@ -6,7 +6,7 @@
         background: #fff url('./ajax-loader.gif') center center no-repeat;
     }
 
-    .slick-action {
+    .slick-action, .slick-arrow-block {
         display: -moz-flex;
         display: -webkit-flex;
         display: -ms-flex;
