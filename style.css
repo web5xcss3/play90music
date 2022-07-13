@@ -765,10 +765,9 @@
 		display: grid;
 		gap: var(--space-xsmall);
 		grid-template-columns: repeat(auto-fill, minmax(min(9.375rem, 100%), 1fr));
-		margin: var(--space-xsmall);
 		list-style: none;
-		margin: 0px;
-		padding: 0px;
+		margin-bottom: 1em;
+		padding: 0;
 	}
 
 		ul.list-data li .list-data-desc h3 {
