@@ -765,8 +765,8 @@
 		display: grid;
 		gap: var(--space-xsmall);
 		grid-template-columns: repeat(auto-fill, minmax(min(9.375rem, 100%), 1fr));
+		margin: var(--space-xsmall);
 		list-style: none;
-		margin: 0px;
 		padding: 0px;
 	}
 
@@ -1903,7 +1903,7 @@
 		}
 
 			.highlight.fullscreen:before {
-				background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 20%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
+				background-image: linear-gradient(180deg, rgba(0,0,0,.6), transparent 30%), linear-gradient(0deg, #000, rgba(0,0,0,.6) 70%, rgba(0,0,0,0) 100%);
 			}
 		
 		.highlight :last-child {
