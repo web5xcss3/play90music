@@ -8,7 +8,7 @@
             fadeDuration: 300,
             beforeLoadNewContent: function () { },
             processData: function(data){               
-                var content = $(`<div style='opacity:0'>${data}</div>`);
+                var content = $(`<ul class="list-data" style='opacity:0'>${data}</ul>`);
                 $('.' + settings.markSelector).before(content);
                 content.fadeTo(settings.fadeDuration, 1);
             },
