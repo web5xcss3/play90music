@@ -44,17 +44,15 @@
             $(element).append(mark);
 
             $(document).ready(function () {
-                $('.' + settings.markSelector).html(`<div class="infiniteContentPreloader" style="width: 150px; height: 150px; margin: 0 auto; display: none;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml: space="preserve">
-                    <circle fill="${settings.preloaderColor}" stroke="none" cx="6" cy="50" r="6">
-                        <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"></animate>
-                    </circle>
-                    <circle fill="${settings.preloaderColor}" stroke="none" cx="26" cy="50" r="6">
-                        <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"></animate>
-                    </circle>
-                    <circle fill="${settings.preloaderColor}" stroke="none" cx="46" cy="50" r="6">
-                        <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.3"></animate>
-                    </circle>
-                </svg></div>`);
+                $('.' + settings.markSelector).html(`<div class="infiniteContentPreloader" style="display: none;">
+                
+                <div class="loader">
+				    <svg class="circular-loader"viewBox="25 25 50 50" >
+				        <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#1b1b1b" stroke-width="4" />
+				    </svg>
+				</div>
+                
+                </div>`);
 
                 if (!('IntersectionObserver' in window)) {
                     console.log("Intersection Observer API is not available");
