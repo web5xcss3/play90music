@@ -451,8 +451,6 @@
 	}
 
 		.box.post {
-			margin-left: auto;
-			margin-right: auto;
 			text-align: left;
 		}
 
@@ -460,8 +458,10 @@
 			.box.post .box-post-desc p {
 				overflow: hidden;
 				text-overflow: ellipsis;
-				white-space: nowrap;
+				white-space: normal;
 				margin: 0;
+				font-size: 1em;
+				font-weight: 600;
 			}
 
 /* Icon */
