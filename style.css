@@ -751,7 +751,12 @@
 			}
 
 			ul.menu li a {
+				display: block;
+				text-align: center;
+				height: 2em;
+				width: 3em;
 				color: #b4b4b4;
+				line-height: 2em;
 				text-transform: uppercase;
 				font-weight: 700;
 			}
