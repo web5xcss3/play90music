@@ -6,7 +6,7 @@
         background: #fff url('./ajax-loader.gif') center center no-repeat;
     }
 
-    .slick-action, .slick-arrow-block {
+    .slick-action, .slick-arrow {
         display: -moz-flex;
         display: -webkit-flex;
         display: -ms-flex;
@@ -51,11 +51,15 @@
     .slick-next:hover:before,
     .slick-next:focus:before {
         opacity: 1;
+		background-color: rgba(255,255,255,0.1);
+		transition: background-color 100ms;
     }
 
 	.slick-prev.slick-disabled:before,
     .slick-next.slick-disabled:before {
         opacity: 0.5;
+		background-color: transparent;
+		transition: none;
     }
 
     .slick-prev:before,
