@@ -1554,7 +1554,7 @@ input, select, textarea {
 		background-color: #0d0d0d;
 		border-top: 2px solid rgba(255, 255, 255, 0.075);
 		position: fixed;
-		height: 4.5em;
+		height: 5em;
 		left: 0;
 		bottom: 0;
 		width: 100%;
@@ -1587,7 +1587,7 @@ input, select, textarea {
 			-webkit-align-items: center;
 			-moz-align-items: center;
 			align-items: center;
-			height: 4.5em;
+			height: 5em;
 		}
 
 			#player-bar .player-info .player-artist-info-photo {
@@ -1598,14 +1598,14 @@ input, select, textarea {
 				border-radius: 5px;
 				-webkit-filter: saturate(150%) brightness(100%);
 				filter: saturate(150%) brightness(100%);
-				-webkit-box-flex: 0 0 3.125em;
-				-webkit-flex: 0 0 3.125em;
-				-moz-box-flex: 0 0 3.125em;
-				-moz-flex: 0 0 3.125em;
-				-ms-flex: 0 0 3.125em;
-				flex: 0 0 3.125em;
-				width: 3.125em;
-				height: 3.125em;
+				-webkit-box-flex: 0 0 4.125em;
+				-webkit-flex: 0 0 4.125em;
+				-moz-box-flex: 0 0 4.125em;
+				-moz-flex: 0 0 4.125em;
+				-ms-flex: 0 0 4.125em;
+				flex: 0 0 4.125em;
+				width: 4.125em;
+				height: 4.125em;
 				overflow: hidden;
 			}
 
