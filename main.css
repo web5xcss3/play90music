@@ -1137,70 +1137,70 @@ input, select, textarea {
 		input[type="reset"].style,
 		input[type="button"].style,
 		.button.style {	         
-            background-image: linear-gradient(150deg, #e95680 20%, #914b5f 51%, #b2536e 100%);
+            background-image: linear-gradient(145deg, #e95680 0%, #914b5f 50%, #b2536e 0%);
 		}
 
 		input[type="submit"].style1,
 		input[type="reset"].style1,
 		input[type="button"].style1,
 		.button.style1 {	         
-            background-image: linear-gradient(150deg, #5691e9 20%, #616083 51%, #536eb2 100%);
+            background-image: linear-gradient(145deg, #5691e9 0%, #616083 50%, #536eb2 0%);
 		}
 
 		input[type="submit"].style2,
 		input[type="reset"].style2,
 		input[type="button"].style2,
 		.button.style2 {	         
-            background-image: linear-gradient(150deg, #56e97f 20%, #627a5f 51%, #53b068 100%);
+            background-image: linear-gradient(145deg, #56e97f 0%, #627a5f 50%, #53b068 0%);
 		}
 
 		input[type="submit"].style3,
 		input[type="reset"].style3,
 		input[type="button"].style3,
 		.button.style3 {	         
-            background-image: linear-gradient(150deg, #e6d756 20%, #907651 51%, #b29e53 100%);
+            background-image: linear-gradient(145deg, #e6d756 0%, #907651 50%, #b29e53 0%);
 		}
 
 		input[type="submit"].style4,
 		input[type="reset"].style4,
 		input[type="button"].style4,
 		.button.style4 {	         
-            background-image: linear-gradient(150deg, #cb55e8 20%, #884c83 51%, #9453b2 100%);
+            background-image: linear-gradient(145deg, #cb55e8 0%, #884c83 50%, #9453b2 0%);
 		}
 
 		input[type="submit"].style5,
 		input[type="reset"].style5,
 		input[type="button"].style5,
 		.button.style5 {	         
-            background-image: linear-gradient(150deg, #56e7cd 20%, #617d7a 51%, #52b2ad 100%);
+            background-image: linear-gradient(145deg, #56e7cd 0%, #617d7a 50%, #52b2ad 0%);
 		}
 
 		input[type="submit"].style6,
 		input[type="reset"].style6,
 		input[type="button"].style6,
 		.button.style6 {	         
-            background-image: linear-gradient(150deg, #271061 20%, #4a083e 51%, #d90b89 100%);
+            background-image: linear-gradient(145deg, #d90b89 0%, #8a0356 50%, #d90b89 0%);
 		}
 
 		input[type="submit"].style7,
 		input[type="reset"].style7,
 		input[type="button"].style7,
 		.button.style7 {	         
-            background-image: linear-gradient(150deg, #0437b7 20%, #05165b 51%, #051479 100%);
+            background-image: linear-gradient(145deg, #0437b7 0%, #05165b 50%, #051479 0%);
 		}
 
 		input[type="submit"].style8,
 		input[type="reset"].style8,
 		input[type="button"].style8,
 		.button.style8 {	         
-            background-image: linear-gradient(150deg, #6c00fa 20%, #310373 51%, #6300eb 100%);
+            background-image: linear-gradient(145deg, #6c00fa 0%, #310373 50%, #6300eb 0%);
 		}
 
 		input[type="submit"].style9,
 		input[type="reset"].style9,
 		input[type="button"].style9,
 		.button.style9 {	         
-            background-image: linear-gradient(150deg, #dd132b 20%, #8c0c1b 51%, #b50f23 100%);
+            background-image: linear-gradient(145deg, #dd132b 0%, #8c0c1b 50%, #b50f23 0%);
 		}
 
 /* Wrapper */
