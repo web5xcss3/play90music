@@ -1334,6 +1334,10 @@ input, select, textarea {
 /* Banner */
 
 	#banner {
+		background-attachment: scroll;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
 		position: absolute;
 		height: 70vh;
 		left: 0;
