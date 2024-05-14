@@ -55,20 +55,6 @@
 			maxCache: 2
 		})
 
-	// Off
-		$(document).ready(function(){
-			$(document).bind("contextmenu",function(e){
-				return false;
-			});
-		});
-
-		document.onkeydown = function(e) {
-			if (e.ctrlKey && 
-			(e.keyCode === 85 )) {
-				return false;
-			}
-		};
-
 	// Opened Player Bar.
         $('.image, .fa-play').on('click', function() {
 
