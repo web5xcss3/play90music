@@ -4,13 +4,23 @@
 
     jQuery(document).ready(function() {
 
-        jQuery('#banner').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false,
-            fade: true,
-            asNavFor: '.recent'
-        });
+       const $recent = $('.recent');
+	const $banner = $('#banner');
+
+	// Extracted function to set background image
+	function setBackgroundImage(slick, currentSlide) {
+		const imgbg = $(slick.$slides[currentSlide]).find('img').attr('src');
+		$banner.css({ backgroundImage: `url("${imgbg}")` });
+	}
+
+	// Event listeners
+	$recent.on('init', function(event, slick) {
+		setBackgroundImage(slick, 0); // Set background image for the first slide
+	});
+
+	$recent.on('afterChange', function(event, slick, currentSlide) {
+		setBackgroundImage(slick, currentSlide);
+	});
 
         jQuery('.recent').slick({
             focusOnSelect: true,
@@ -18,7 +28,6 @@
             slidesToShow: 4,
             speed: 300,
             slidesToScroll: 1,
-            asNavFor: '#banner',
             appendArrows: $('#slick-nav'),
             responsive: [{
                     breakpoint: 1280,
