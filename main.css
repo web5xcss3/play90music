@@ -1529,12 +1529,6 @@ input, select, textarea {
 				overflow: hidden;
 			}
 
-				#player-bar .player-info .player-artist-info-photo img {
-					display: block;
-					height: 100%;
-					width: 100%;
-				}
-
 			#player-bar .player-info .player-artist-info-desc {
 				-webkit-box-flex: 1 1 15.5em;
 				-webkit-flex: 1 1 15.5em;
