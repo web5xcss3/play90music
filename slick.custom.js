@@ -7,15 +7,23 @@
        const $recent = $('.recent');
 	const $banner = $('#banner');
 
-	// Extracted function to set background image
-	function setBackgroundImage(slick, currentSlide) {
+	/*
+ 	function setBackgroundImage(slick, currentSlide) {
 		const imgbg = $(slick.$slides[currentSlide]).find('img').attr('src');
 		$banner.css({ backgroundImage: `url("${imgbg}")` });
 	}
+ 	*/
 
-	// Event listeners
+	function updateBgImage(slick, currentSlide) {
+		var imgUrl = slick.$slides.eq(currentSlide).find('img').attr('src');
+		$banner.fadeOut('fast', function() {
+			$banner.css('background-image', 'url(' + imgUrl + ')');
+			$banner.fadeIn('slow');
+		});
+	}
+
 	$recent.on('init', function(event, slick) {
-		setBackgroundImage(slick, 0); // Set background image for the first slide
+		setBackgroundImage(slick, 0);
 	});
 
 	$recent.on('afterChange', function(event, slick, currentSlide) {
