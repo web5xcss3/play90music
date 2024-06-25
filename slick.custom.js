@@ -7,17 +7,10 @@
        const $recent = $('.recent');
 	const $banner = $('#banner');
 
-	/*
- 	function setBackgroundImage(slick, currentSlide) {
-		const imgbg = $(slick.$slides[currentSlide]).find('img').attr('src');
-		$banner.css({ backgroundImage: `url("${imgbg}")` });
-	}
- 	*/
-
 	function updateBgImage(slick, currentSlide) {
-		var imgUrl = slick.$slides.eq(currentSlide).find('img').attr('src');
+		const imgbg = slick.$slides.eq(currentSlide).find('img').attr('src');
 		$banner.fadeOut('fast', function() {
-			$banner.css('background-image', 'url(' + imgUrl + ')');
+			$banner.css('background-image', 'url(' + imgbg + ')');
 			$banner.fadeIn('slow');
 		});
 	}
