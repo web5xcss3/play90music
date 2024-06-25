@@ -3,25 +3,25 @@
     "use strict";
 
     jQuery(document).ready(function() {
-
-       const $recent = $('.recent');
-	const $banner = $('#banner');
-
-	function updateBgImage(slick, currentSlide) {
-		const imgbg = slick.$slides.eq(currentSlide).find('img').attr('src');
-		$banner.fadeOut('fast', function() {
-			$banner.css('background-image', 'url(' + imgbg + ')');
-			$banner.fadeIn('slow');
-		});
-	}
-
-	$recent.on('init', function(event, slick) {
-		setBackgroundImage(slick, 0);
-	});
-
-	$recent.on('afterChange', function(event, slick, currentSlide) {
-		setBackgroundImage(slick, currentSlide);
-	});
+	    
+	    var $bgImage = $('.recent');
+	    var $banner = $('#banner');
+	    
+	    function updateBgImage(slick, currentSlide) {
+		    var imgUrl = slick.$slides.eq(currentSlide).find('img').attr('src');
+		    $banner.fadeOut('fast', function() {
+			    $banner.css('background-image', 'url(' + imgUrl + ')');
+			    $banner.fadeIn('slow');
+		    });
+	    };
+	    
+	    $bgImage.on('init', function(event, slick) {
+		    updateBgImage(slick, 0);
+	    });
+	    
+	    $bgImage.on('afterChange', function(event, slick, currentSlide) {
+		    updateBgImage(slick, currentSlide);
+	    });
 
         jQuery('.recent').slick({
             focusOnSelect: true,
