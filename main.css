@@ -1758,15 +1758,6 @@ input, select, textarea {
 					font-size: 1em;
 				}
 
-		/* Button */
-
-			input[type="submit"],
-			input[type="reset"],
-			input[type="button"],
-			.button {
-				font-size: 0.9em !important;
-			}
-
 		/* Wrapper */
 
 			.wrapper {
