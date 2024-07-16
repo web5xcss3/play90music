@@ -1176,7 +1176,7 @@ input, select, textarea {
 
 		#header img {
 			display: block;
-			height: 2.5em;
+			width: 3em;
 		}
 
 		#header a {
