@@ -29,7 +29,7 @@
             slidesToShow: 4,
             speed: 300,
             slidesToScroll: 1,
-            appendArrows: $('#slick-nav'),
+            appendArrows: $('#recent-slick-nav'),
             responsive: [{
                     breakpoint: 1280,
                     settings: {
@@ -217,7 +217,7 @@
                     }
                 }
             ],
-			nextArrow: '<ul class="icons"><li><a class="md-ripples ripples-light material"><span class="material-symbols-outlined">chevron_right</span></a></li></ul>',
+	    nextArrow: '<ul class="icons"><li><a class="md-ripples ripples-light material"><span class="material-symbols-outlined">chevron_right</span></a></li></ul>',
             prevArrow: '<ul class="icons"><li><a class="md-ripples ripples-light material"><span class="material-symbols-outlined">chevron_left</span></a></li></ul>',
         });
 
