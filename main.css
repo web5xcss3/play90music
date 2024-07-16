@@ -217,6 +217,10 @@ input, select, textarea {
 		top: -0.5em;
 	}
 
+	.align-top {
+		padding: 3em 2em 2em;
+	}
+
 	.align-left {
 		text-align: left;
 	}
