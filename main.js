@@ -149,7 +149,7 @@
 
 			$('.image').click(function(e) {
 				e.preventDefault();
-				loadContent($(this).attr('data-url'));
+				loadContent($(this).attr('data-src'));
 			});
 
 			function loadContent(url) {
