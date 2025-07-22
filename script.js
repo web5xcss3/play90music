@@ -12,7 +12,7 @@ let currentData = {
     djs: (typeof mockDjs !== 'undefined') ? mockDjs : [],
     artists: (typeof mockArtists !== 'undefined') ? mockArtists : [],
     playlists: (typeof mockPlaylists !== 'undefined') ? mockPlaylists : [],
-    genres: (typeof mockGenres !== 'undefined') ? mockGenres : [],
+    //genres: (typeof mockGenres !== 'undefined') ? mockGenres : [],
     musics: (typeof mockMusics !== 'undefined') ? mockMusics : [],
     albums: (typeof mockAlbums !== 'undefined') ? mockAlbums : [],
     singles: (typeof mockSingles !== 'undefined') ? mockSingles : [],
@@ -27,7 +27,7 @@ const originalData = {
     djs: (typeof mockDjs !== 'undefined') ? [...mockDjs] : [],
     artists: (typeof mockArtists !== 'undefined') ? [...mockArtists] : [],
     playlists: (typeof mockPlaylists !== 'undefined') ? [...mockPlaylists] : [],
-    genres: (typeof mockGenres !== 'undefined') ? [...mockGenres] : [],
+    //genres: (typeof mockGenres !== 'undefined') ? [...mockGenres] : [],
     musics: (typeof mockMusics !== 'undefined') ? [...mockMusics] : [],
     albums: (typeof mockAlbums !== 'undefined') ? [...mockAlbums] : [],
     singles: (typeof mockSingles !== 'undefined') ? [...mockSingles] : [],
@@ -71,7 +71,7 @@ function initializeApp() {
     renderAllAlbums();
     renderAllArtists();
     renderAllPlaylists();
-    renderGenres();
+    //renderGenres();
     renderTimeline();
     renderMusics();
     renderAllSingles();
@@ -165,13 +165,13 @@ function handleSearch() {
                 return (playlist.name && playlist.name.toLowerCase().includes(searchTerm)) ||
                        (playlist.title && playlist.title.toLowerCase().includes(searchTerm));
             }),
-            
+            /*
             genres: (originalData.genres || []).filter(genre => {
                 if (!genre) return false;
                 return (genre.name && genre.name.toLowerCase().includes(searchTerm)) ||
                        (genre.title && genre.title.toLowerCase().includes(searchTerm));
             }),
-            
+            */
             timeline: (originalData.timeline || []).filter(time => {
                 if (!time) return false;
                 return (time.name && time.name.toLowerCase().includes(searchTerm)) ||
@@ -226,7 +226,7 @@ function handleSearch() {
             albums: [...(originalData.albums || [])],
             artists: [...(originalData.artists || [])],
             playlists: [...(originalData.playlists || [])],
-            genres: [...(originalData.genres || [])],
+            //genres: [...(originalData.genres || [])],
             timeline: [...(originalData.timeline || [])],
             musics: [...(originalData.musics || [])],
             singles: [...(originalData.singles || [])],
@@ -243,7 +243,7 @@ function handleSearch() {
         renderAllAlbums();
         renderAllArtists();
         renderAllPlaylists();
-        renderGenres();
+        //renderGenres();
         renderTimeline();
         renderMusics();
         renderAllSingles();
@@ -317,7 +317,7 @@ function updateStats() {
     if (albumCountEl) albumCountEl.textContent = (currentData.albums || []).length;
     if (artistCountEl) artistCountEl.textContent = (currentData.artists || []).length;
     if (playlistCountEl) playlistCountEl.textContent = (currentData.playlists || []).length;
-    if (genreCountEl) genreCountEl.textContent = (currentData.genres || []).length;
+    //if (genreCountEl) genreCountEl.textContent = (currentData.genres || []).length;
 }
 
 /*===============================================================================
@@ -348,6 +348,8 @@ function renderFeaturedAlbums() {
             </div>
         </div>
     `).join('');
+	
+	setupBannerFillColorEvents('featuredAlbums');
     
     // CORRIGIDO: Adicionar event listeners para os cards
     container.querySelectorAll('.album-card').forEach(card => {
@@ -359,6 +361,7 @@ function renderFeaturedAlbums() {
             }
         });
     });
+
 }
 
 /*===============================================================================
@@ -383,6 +386,8 @@ function renderAllInstrumental() {
             </div>
         </div>
     `).join('');
+	
+	setupBannerFillColorEvents('allInstrumental');
     
     // CORRIGIDO: Adicionar event listeners
     container.querySelectorAll('.album-card').forEach(card => {
@@ -417,6 +422,8 @@ function renderAllDjs() {
             </div>
         </div>
     `).join('');
+	
+	setupBannerFillColorEvents('allDjs');
     
     // CORRIGIDO: Adicionar event listeners
     container.querySelectorAll('.album-card').forEach(card => {
@@ -458,6 +465,8 @@ function renderMusics() {
             </div>
         </div>
     `).join('');
+	
+	setupBannerFillColorEvents('allMusics');
 
     // Adicionar eventos
     container.querySelectorAll('.album-card').forEach(card => {
@@ -478,19 +487,15 @@ function renderMusics() {
 function renderAllAlbums() {
     const container = document.getElementById('allAlbums');
     if (!container) return;
-    
-    const combinedAlbums = [
-        ...(currentData.albums || []),
-        ...((typeof mockFeatured !== 'undefined' ? mockFeatured : []).filter(item => item.format && item.format.toLowerCase().includes('album')))
-    ];
-    
-    const sortedAlbums = combinedAlbums
-        .slice()
-        .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 4);
 
-    container.innerHTML = sortedAlbums.map(album => `
-        <div class="album-card" data-id="${album.id || ''}" data-type="albums">
+    const combinedAlbums = [
+        ...(currentData.featured || []).filter(item =>
+            item.format?.toLowerCase().includes('album')
+        )
+    ].sort((a, b) => (b.id || 0) - (a.id || 0));
+
+    container.innerHTML = combinedAlbums.map(album => `
+        <div class="album-card" data-id="${album.id || ''}" data-type="featured">
             <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
             <div class="album-info">
                 <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
@@ -498,10 +503,11 @@ function renderAllAlbums() {
             </div>
         </div>
     `).join('');
-    
-    // CORRIGIDO: Adicionar event listeners
+
+    setupBannerFillColorEvents('allAlbums');
+
     container.querySelectorAll('.album-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
             if (!isNaN(id)) {
@@ -510,6 +516,7 @@ function renderAllAlbums() {
         });
     });
 }
+
 
 /*===============================================================================
 =================================================================================*/
@@ -552,6 +559,8 @@ function renderAllArtists() {
             </div>
         </div>
     `).join('');
+	
+	setupBannerFillColorEvents('allArtists');
 
     // Eventos de clique nos artistas
     container.querySelectorAll('.artist-card').forEach(card => {
@@ -604,6 +613,8 @@ function renderSubAlbumsByArtist(artist) {
             </div>
         `;
     }).join('');
+	
+	setupBannerFillColorEvents('suballAlbums');
 
     container.querySelectorAll('.album-card').forEach(card => {
         card.addEventListener('click', function(e) {
@@ -627,30 +638,27 @@ function renderSubAlbumsByArtist(artist) {
 function renderAllVinyls() {
     const container = document.getElementById('allVinyls');
     if (!container) return;
-    
-    const combinedVinyls = [
-        ...(currentData.vinyls || []),
-        ...((typeof mockFeatured !== 'undefined' ? mockFeatured : []).filter(item => item.format && item.format.toLowerCase().includes('vinyl')))
-    ];
-    
-    const sortedVinyls = combinedVinyls
-        .slice()
-        .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 50);
 
-    container.innerHTML = sortedVinyls.map(vinyl => `
-        <div class="album-card" data-id="${vinyl.id || ''}" data-type="vinyls">
-            <img src="${vinyl.image || ''}" alt="${escapeHtml(vinyl.title || '')}" class="album-image">
+    const combinedVinyls = [
+        ...(currentData.featured || []).filter(item =>
+            item.format?.toLowerCase().includes('vinyl')
+        )
+    ].sort((a, b) => (b.id || 0) - (a.id || 0));
+
+    container.innerHTML = combinedVinyls.map(album => `
+        <div class="album-card" data-id="${album.id || ''}" data-type="featured">
+            <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
             <div class="album-info">
-                <h3 class="album-title">${escapeHtml(vinyl.title || '')}</h3>
-                <p class="album-artist">${escapeHtml(vinyl.artist || '')}</p>
+                <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
+                <p class="album-artist">${escapeHtml(album.artist || '')}</p>
             </div>
         </div>
     `).join('');
-    
-    // CORRIGIDO: Adicionar event listeners
+
+    setupBannerFillColorEvents('allVinyls');
+
     container.querySelectorAll('.album-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
             if (!isNaN(id)) {
@@ -667,30 +675,27 @@ function renderAllVinyls() {
 function renderAllSingles() {
     const container = document.getElementById('allSingles');
     if (!container) return;
-    
-    const combinedSingles = [
-        ...(currentData.singles || []),
-        ...((typeof mockFeatured !== 'undefined' ? mockFeatured : []).filter(item => item.format && item.format.toLowerCase().includes('single')))
-    ];
-    
-    const sortedSingles = combinedSingles
-        .slice()
-        .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 50);
 
-    container.innerHTML = sortedSingles.map(single => `
-        <div class="album-card" data-id="${single.id || ''}" data-type="singles">
-            <img src="${single.image || ''}" alt="${escapeHtml(single.title || '')}" class="album-image">
+    const combinedSingles = [
+        ...(currentData.featured || []).filter(item =>
+            item.format?.toLowerCase().includes('single')
+        )
+    ].sort((a, b) => (b.id || 0) - (a.id || 0));
+
+    container.innerHTML = combinedSingles.map(album => `
+        <div class="album-card" data-id="${album.id || ''}" data-type="featured">
+            <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
             <div class="album-info">
-                <h3 class="album-title">${escapeHtml(single.title || '')}</h3>
-                <p class="album-artist">${escapeHtml(single.artist || '')}</p>
+                <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
+                <p class="album-artist">${escapeHtml(album.artist || '')}</p>
             </div>
         </div>
     `).join('');
-    
-    // CORRIGIDO: Adicionar event listeners
+
+    setupBannerFillColorEvents('allSingles');
+
     container.querySelectorAll('.album-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
             if (!isNaN(id)) {
@@ -724,6 +729,8 @@ function renderAllPlaylists() {
             </div>
         </div>
     `).join('');
+	
+	setupBannerFillColorEvents('allPlaylists');
     
     // CORRIGIDO: Adicionar event listeners
     container.querySelectorAll('.playlist-play-btn').forEach(btn => {
@@ -740,7 +747,7 @@ function renderAllPlaylists() {
 
 /*===============================================================================
 =================================================================================*/
-
+/*
 // Funções de renderização genres
 function renderGenres() {
     const container = document.getElementById('genres');
@@ -753,11 +760,11 @@ function renderGenres() {
         </div>
     `).join('');
 }
-
+*/
 /*===============================================================================
 =================================================================================*/
 
-// Timeline
+// Timeline segura e ordenada corretamente
 function renderTimeline() {
     const container = document.getElementById('allTimeline');
     if (!container) return;
@@ -771,88 +778,86 @@ function renderTimeline() {
 
     const albumsByYear = allAlbums.reduce((acc, album) => {
         if (!album || !album.year) return acc;
-        if (!acc[album.year]) {
-            acc[album.year] = { name: album.year, albumCount: 0 };
+        const yearStr = album.year.toString();
+        if (!acc[yearStr]) {
+            acc[yearStr] = { name: yearStr, albumCount: 0 };
         }
-        acc[album.year].albumCount++;
+        acc[yearStr].albumCount++;
         return acc;
     }, {});
 
-    const timelineYears = Object.values(albumsByYear);
+    const timelineYears = Object.values(albumsByYear)
+        .sort((a, b) => parseInt(b.name) - parseInt(a.name));
 
     container.innerHTML = timelineYears.map(year => `
         <div class="timeline-card" data-year="${year.name}">
             <h3>${year.name}</h3>
-            <p>${year.albumCount} Álbuns</p>
+            <p>${year.albumCount} álbuns lançados</p>
         </div>
     `).join('');
 
-    // CORRIGIDO: Adicionar event listeners
+    // Evento de clique para cada ano
     container.querySelectorAll('.timeline-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const year = this.dataset.year;
             renderAlbumsByYear(year);
         });
     });
+
+    setupBannerFillColorEvents('allTimeline');
 }
 
-// Timeline Year Albums - CORRIGIDO
+// Lista de álbuns do ano clicado
 function renderAlbumsByYear(year) {
     const allAlbums = [
         ...(currentData.albums || []),
         ...(currentData.singles || []),
         ...(currentData.vinyls || []),
         ...(currentData.featured || [])
-    ]
-    .slice()
-    .sort((a, b) => (b.id || 0) - (a.id || 0))
-    .slice(0, 100);
+    ].sort((a, b) => (b.id || 0) - (a.id || 0)); // Ordem decrescente por ID
 
-    const albums = allAlbums.filter(album => album && album.year === year);
+    const albums = allAlbums.filter(album =>
+        album && album.year?.toString() === year.toString()
+    );
+
     const container = document.getElementById('yearAlbumsList');
     const title = document.getElementById('yearAlbumsTitle');
-
     if (!container || !title) return;
 
     title.textContent = `Álbuns de ${year}`;
     container.innerHTML = albums.map(album => {
-        // CORRIGIDO: Determinar o tipo correto baseado no array original
-        let albumType = 'album';
+        let albumType = 'albums';
         if ((currentData.singles || []).find(s => s.id === album.id)) albumType = 'singles';
-        else if ((currentData.albums || []).find(v => v.id === album.id)) albumType = 'albums';
         else if ((currentData.vinyls || []).find(v => v.id === album.id)) albumType = 'vinyls';
-        else if ((currentData.featured || []).find(f => f.id === album.id)) albumType = 'featured'
-        
+        else if ((currentData.featured || []).find(f => f.id === album.id)) albumType = 'featured';
+
         return `
-            <div class="album-card" data-id="${album.id || ''}" data-type="${albumType}">
-                <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
+            <div class="album-card" data-id="${album.id}" data-type="${albumType}">
+                <img src="${album.image}" alt="${escapeHtml(album.title)}" class="album-image">
                 <div class="album-info">
-                    <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
-                    <p class="album-artist">${escapeHtml(album.artist || '')}</p>
+                    <h3 class="album-title">${escapeHtml(album.title)}</h3>
+                    <p class="album-artist">${escapeHtml(album.artist)}</p>
                     <div class="album-details">
                         <div class="year-format">
-                            <span class="year">${album.year || ''}</span>
-                            <span class="format">${album.format || ''}</span>
+                            <span class="year">${album.year}</span>
+                            <span class="format">${album.format}</span>
                         </div>
                     </div>
                 </div>
             </div>
         `;
     }).join('');
-    
-    // CORRIGIDO: Adicionar event listeners com log para debug
+
     container.querySelectorAll('.album-card').forEach(card => {
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function (e) {
             e.preventDefault();
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
-            console.log(`Clicou no álbum: id=${id}, type=${type}`); // Debug
-            if (!isNaN(id)) {
-                openPlayer(id, type);
-            }
+            if (!isNaN(id)) openPlayer(id, type);
         });
     });
 
+    setupBannerFillColorEvents('yearAlbumsList');
     switchTab('yearAlbums');
 }
 
@@ -1147,7 +1152,7 @@ function debugSearch(searchTerm = '') {
         albums: (originalData.albums || []).length,
         artists: (originalData.artists || []).length,
         playlists: (originalData.playlists || []).length,
-        genres: (originalData.genres || []).length,
+        //genres: (originalData.genres || []).length,
         musics: (originalData.musics || []).length,
         singles: (originalData.singles || []).length,
         vinyls: (originalData.vinyls || []).length,
@@ -1159,7 +1164,7 @@ function debugSearch(searchTerm = '') {
         albums: (currentData.albums || []).length,
         artists: (currentData.artists || []).length,
         playlists: (currentData.playlists || []).length,
-        genres: (currentData.genres || []).length,
+        //genres: (currentData.genres || []).length,
         musics: (currentData.musics || []).length,
         singles: (currentData.singles || []).length,
         vinyls: (currentData.vinyls || []).length,
@@ -1183,3 +1188,32 @@ function debugSearch(searchTerm = '') {
 // - Busca: "Busca realizada com sucesso: [termo]"
 // - Erros: Todos os erros são logados no console
 // ==================================================================
+
+function setupBannerFillColorEvents(sectionId, cardSelector = '.album-card') {
+	const $section = $('#' + sectionId);
+	const $banner = $('#banner');
+
+	if (!$section.length || !$banner.length) return;
+
+	// 1️⃣ Aplica a imagem da 1ª capa da seção no banner
+	const $firstImage = $section.find(`${cardSelector} img`).first();
+	if ($firstImage.length) {
+		const src = $firstImage.attr('src');
+		$banner.html(`<img src="${src}" alt="Banner">`);
+		$banner.find('img').on('load', () => {
+			$banner.fillColor({ type: 'avgYUV' });
+		});
+	}
+
+	// 2️⃣ Adiciona evento de clique em cada card da seção
+	$section.off('click.bannerFillColor').on('click.bannerFillColor', cardSelector, function () {
+		const $img = $(this).find('img');
+		if ($img.length) {
+			const src = $img.attr('src');
+			$banner.html(`<img src="${src}" alt="Banner">`);
+			$banner.find('img').on('load', () => {
+				$banner.fillColor({ type: 'avgYUV' });
+			});
+		}
+	});
+}
