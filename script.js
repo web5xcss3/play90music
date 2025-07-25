@@ -48,8 +48,8 @@ function escapeHtml(str) {
 
 // CORRIGIDO: DOM Elements com verificação de existência
 const searchInput = document.getElementById('searchInput');
-const navButtons = document.querySelectorAll('.nav-btn');
-const tabContents = document.querySelectorAll('.tab-content');
+const navButtons = document.querySelectorAll('ul li a.nav-btn');
+const tabContents = document.querySelectorAll('section .tab-content');
 
 // CORRIGIDO: Variável para debounce
 let searchTimeout;
@@ -82,7 +82,7 @@ function initializeApp() {
     renderRecentlyPlayed();
 }
 
-// CORRIGIDO: Setup de event listeners aprimorado
+// CORRIGIDO: Setup de event listeners section
 function setupEventListeners() {
     // Verificar se searchInput existe antes de adicionar listeners
     if (searchInput) {
@@ -129,6 +129,63 @@ function setupEventListeners() {
             switchTab('timeline');
         });
     }
+	
+	const instrumentalArtists = document.getElementById('instrumentalArtists');
+    if (instrumentalArtists) {
+        instrumentalArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
+	const djsArtists = document.getElementById('djsArtists');
+    if (djsArtists) {
+        djsArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
+	const vinylsArtists = document.getElementById('vinylsArtists');
+    if (vinylsArtists) {
+        vinylsArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
+	const singlesArtists = document.getElementById('singlesArtists');
+    if (singlesArtists) {
+        singlesArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
+	const albumsArtists = document.getElementById('albumsArtists');
+    if (albumsArtists) {
+        albumsArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
+	const playlistsArtists = document.getElementById('playlistsArtists');
+    if (playlistsArtists) {
+        playlistsArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
+	const musicsArtists = document.getElementById('musicsArtists');
+    if (musicsArtists) {
+        musicsArtists.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('artists');
+        });
+    }
+	
 }
 
 // ==================================================================
@@ -327,7 +384,12 @@ function updateStats() {
 function renderFeaturedAlbums() {
     const container = document.getElementById('featuredAlbums');
     if (!container) return;
-    
+	
+	const titleElement = document.getElementById('featuredTitle');
+	if (titleElement) {
+		titleElement.textContent = 'Álbuns em Destaque'; // ou qualquer título dinâmico
+	};
+
     const featuredAlbums = (currentData.featured || [])
         .slice()
         .sort((a, b) => (b.id || 0) - (a.id || 0))
@@ -335,17 +397,21 @@ function renderFeaturedAlbums() {
     
     container.innerHTML = featuredAlbums.map(item => `
         <div class="album-card" data-id="${item.id || ''}" data-type="featured">
-            <img src="${item.image || ''}" alt="${escapeHtml(item.title || '')}" class="album-image">
-            <div class="album-info">
-                <h3 class="album-title">${escapeHtml(item.title || '')}</h3>
-                <p class="album-artist">${escapeHtml(item.artist || '')}</p>
-                <div class="album-details">
-                    <div class="year-format">
-                        <span class="year">${item.year || ''}</span>
-                        <span class="format">${item.format || ''}</span>
-                    </div>
-                </div>
-            </div>
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${item.image || ''}" alt="${escapeHtml(item.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+			
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(item.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(item.artist || '')}</p>
+				</header>
+			</article>
         </div>
     `).join('');
 	
@@ -369,29 +435,38 @@ function renderFeaturedAlbums() {
 
 // Funções de renderização allInstrumental
 function renderAllInstrumental() {
-    const container = document.getElementById('allInstrumental');
+    const container = document.getElementById('allInstrumentals');
     if (!container) return;
-    
-    const sortedInstrumental = (currentData.instrumental || [])
-        .slice()
-        .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 10);
 
-    container.innerHTML = sortedInstrumental.map(inst => `
-        <div class="album-card" data-id="${inst.id || ''}" data-type="instrumental">
-            <img src="${inst.image || ''}" alt="${escapeHtml(inst.title || inst.name || '')}" class="album-image">
-            <div class="album-info">
-                <h3 class="album-title">${escapeHtml(inst.title || inst.name || '')}</h3>
-                <p class="album-artist">${escapeHtml(inst.name || inst.artist || '')}</p>
-            </div>
+    const combinedInstrumentals = [
+        ...(currentData.featured || []).filter(item =>
+            item.format?.toLowerCase().includes('instrumental')
+        )
+    ].sort((a, b) => (b.id || 0) - (a.id || 0));
+
+    container.innerHTML = combinedInstrumentals.map(inst => `
+        <div class="album-card" data-id="${inst.id || ''}" data-type="featured">
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${inst.image || ''}" alt="${escapeHtml(inst.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(inst.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(inst.artist || '')}</p>
+				</header>
+			</article>
         </div>
     `).join('');
 	
-	setupBannerFillColorEvents('allInstrumental');
-    
-    // CORRIGIDO: Adicionar event listeners
+    setupBannerFillColorEvents('allInstrumentals');
+
     container.querySelectorAll('.album-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
             if (!isNaN(id)) {
@@ -400,6 +475,7 @@ function renderAllInstrumental() {
         });
     });
 }
+
 
 /*===============================================================================
 =================================================================================*/
@@ -408,26 +484,36 @@ function renderAllInstrumental() {
 function renderAllDjs() {
     const container = document.getElementById('allDjs');
     if (!container) return;
-    
-    const sortedDjs = (currentData.djs || [])
-        .slice()
-        .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 10);
 
-    container.innerHTML = sortedDjs.map(dj => `
-        <div class="album-card" data-id="${dj.id || ''}" data-type="djs">
-            <img src="${dj.image || ''}" alt="${escapeHtml(dj.name || '')}" class="album-image">
-            <div class="album-info">
-                <h3 class="album-title">${escapeHtml(dj.name || '')}</h3>
-            </div>
+    const combinedDjs = [
+        ...(currentData.featured || []).filter(item =>
+            item.format?.toLowerCase().includes('dj')
+        )
+    ].sort((a, b) => (b.id || 0) - (a.id || 0));
+
+    container.innerHTML = combinedDjs.map(dj => `
+        <div class="album-card" data-id="${dj.id || ''}" data-type="featured">
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${dj.image || ''}" alt="${escapeHtml(dj.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(dj.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(dj.artist || '')}</p>
+				</header>
+			</article>
         </div>
     `).join('');
-	
-	setupBannerFillColorEvents('allDjs');
-    
-    // CORRIGIDO: Adicionar event listeners
+
+    setupBannerFillColorEvents('allDjs');
+
     container.querySelectorAll('.album-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
             if (!isNaN(id)) {
@@ -436,6 +522,7 @@ function renderAllDjs() {
         });
     });
 }
+
 
 /*===============================================================================
 =================================================================================*/
@@ -448,7 +535,7 @@ function renderMusics() {
     const sortedMusics = (currentData.musics || [])
         .slice()
         .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 4);
+        .slice(0, 500);
 
     // Verifica se a lista está vazia
     if (sortedMusics.length === 0) {
@@ -496,14 +583,23 @@ function renderAllAlbums() {
 
     container.innerHTML = combinedAlbums.map(album => `
         <div class="album-card" data-id="${album.id || ''}" data-type="featured">
-            <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
-            <div class="album-info">
-                <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
-                <p class="album-artist">${escapeHtml(album.artist || '')}</p>
-            </div>
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(album.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(album.artist || '')}</p>
+				</header>
+            </article>
         </div>
     `).join('');
-
+	
     setupBannerFillColorEvents('allAlbums');
 
     container.querySelectorAll('.album-card').forEach(card => {
@@ -516,7 +612,6 @@ function renderAllAlbums() {
         });
     });
 }
-
 
 /*===============================================================================
 =================================================================================*/
@@ -552,11 +647,17 @@ function renderAllArtists() {
 
     container.innerHTML = subeAlbumYears.map(artist => `
         <div class="artist-card" data-artist="${artist.name}">
-            <img src="${artist.image}" alt="${escapeHtml(artist.name)}" class="artist-image">
-            <div class="artist-info">
-                <h3>${escapeHtml(artist.name)}</h3>
-                <p>${artist.albumCount} Álbuns</p>
-            </div>
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit circles md-ripples ripples-light" data-position="center">
+						<img src="${artist.image}" alt="${escapeHtml(artist.name)}" class="artist-image">
+					</a>
+				</div>
+				<header class="align-center">
+					<h3>${escapeHtml(artist.name)}</h3>
+					<p>${artist.albumCount} Álbuns</p>
+				</header>
+			</article>
         </div>
     `).join('');
 	
@@ -581,7 +682,7 @@ function renderSubAlbumsByArtist(artist) {
     ]
     .slice()
     .sort((a, b) => (b.id || 0) - (a.id || 0))
-    .slice(0, 100);
+    .slice(0, 1000);
 
     const albums = allAlbums.filter(album => album && album.artist === artist);
     const container = document.getElementById('suballAlbums');
@@ -599,17 +700,21 @@ function renderSubAlbumsByArtist(artist) {
 
         return `
             <div class="album-card" data-id="${album.id || ''}" data-type="${albumType}">
-                <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
-                <div class="album-info">
-                    <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
-                    <p class="album-artist">${escapeHtml(album.artist || '')}</p>
-                    <div class="album-details">
-                        <div class="artist-format">
-                            <span class="artist">${album.artist || ''}</span>
-                            <span class="format">${album.format || ''}</span>
-                        </div>
-                    </div>
-                </div>
+				<article class="box post">
+				
+					<div class="content">
+						<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
+						</a>
+						<ul class="icons">
+							<li><a href="#" class="icon solid fa-play"></a></li>
+						</ul>
+					</div>
+					<header class="align-left">
+						<h3 class="album-title">${escapeHtml(album.title || '')}</h3>
+						<p class="album-artist">${escapeHtml(album.artist || '')}</p>
+					</header>
+				</article>
             </div>
         `;
     }).join('');
@@ -647,11 +752,20 @@ function renderAllVinyls() {
 
     container.innerHTML = combinedVinyls.map(album => `
         <div class="album-card" data-id="${album.id || ''}" data-type="featured">
-            <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
-            <div class="album-info">
-                <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
-                <p class="album-artist">${escapeHtml(album.artist || '')}</p>
-            </div>
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(album.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(album.artist || '')}</p>
+				</header>
+			</article>
         </div>
     `).join('');
 
@@ -684,14 +798,23 @@ function renderAllSingles() {
 
     container.innerHTML = combinedSingles.map(album => `
         <div class="album-card" data-id="${album.id || ''}" data-type="featured">
-            <img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
-            <div class="album-info">
-                <h3 class="album-title">${escapeHtml(album.title || '')}</h3>
-                <p class="album-artist">${escapeHtml(album.artist || '')}</p>
-            </div>
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(album.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(album.artist || '')}</p>
+				</header>
+            </article>
         </div>
     `).join('');
-
+	
     setupBannerFillColorEvents('allSingles');
 
     container.querySelectorAll('.album-card').forEach(card => {
@@ -712,30 +835,36 @@ function renderAllSingles() {
 function renderAllPlaylists() {
     const container = document.getElementById('allPlaylists');
     if (!container) return;
-    
-    const sortedPlaylists = (currentData.playlists || [])
-        .slice()
-        .sort((a, b) => (b.id || 0) - (a.id || 0))
-        .slice(0, 10);
-    
-    container.innerHTML = sortedPlaylists.map(playlist => `
-        <div class="playlist-card" data-id="${playlist.id || ''}" data-type="playlists">
-            <img src="${playlist.image || ''}" alt="${escapeHtml(playlist.name || '')}" class="playlist-image">
-            <div class="playlist-info">
-                <h3 class="playlist-name">${escapeHtml(playlist.name || '')}</h3>
-                <button class="playlist-play-btn" data-id="${playlist.id || ''}" data-type="playlist">
-                    Play Mix
-                </button>
-            </div>
+
+    const combinedPlaylists = [
+        ...(currentData.featured || []).filter(item =>
+            item.format?.toLowerCase().includes('playlist')
+        )
+    ].sort((a, b) => (b.id || 0) - (a.id || 0));
+
+    container.innerHTML = combinedPlaylists.map(playlist => `
+        <div class="album-card" data-id="${playlist.id || ''}" data-type="featured">
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${playlist.image || ''}" alt="${escapeHtml(playlist.title || '')}" class="album-image">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(playlist.title || '')}</h3>
+					<p class="album-artist">${escapeHtml(playlist.artist || '')}</p>
+				</header>
+            </article>
         </div>
     `).join('');
 	
-	setupBannerFillColorEvents('allPlaylists');
-    
-    // CORRIGIDO: Adicionar event listeners
-    container.querySelectorAll('.playlist-play-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
+    setupBannerFillColorEvents('allPlaylists');
+
+    container.querySelectorAll('.album-card').forEach(card => {
+        card.addEventListener('click', function () {
             const id = parseInt(this.dataset.id);
             const type = this.dataset.type;
             if (!isNaN(id)) {
@@ -744,6 +873,7 @@ function renderAllPlaylists() {
         });
     });
 }
+
 
 /*===============================================================================
 =================================================================================*/
@@ -833,21 +963,24 @@ function renderAlbumsByYear(year) {
 
         return `
             <div class="album-card" data-id="${album.id}" data-type="${albumType}">
-                <img src="${album.image}" alt="${escapeHtml(album.title)}" class="album-image">
-                <div class="album-info">
-                    <h3 class="album-title">${escapeHtml(album.title)}</h3>
-                    <p class="album-artist">${escapeHtml(album.artist)}</p>
-                    <div class="album-details">
-                        <div class="year-format">
-                            <span class="year">${album.year}</span>
-                            <span class="format">${album.format}</span>
-                        </div>
-                    </div>
-                </div>
+				<article class="box post">
+					<div class="content">
+						<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<img src="${album.image}" alt="${escapeHtml(album.title)}" class="album-image">
+						</a>
+						<ul class="icons">
+							<li><a href="#" class="icon solid fa-play"></a></li>
+						</ul>
+					</div>
+					<header class="align-left">
+						<h3 class="album-title">${escapeHtml(album.title)}</h3>
+						<p class="album-artist">${escapeHtml(album.artist)}</p>
+					</header>
+				</article>
             </div>
         `;
     }).join('');
-
+	
     container.querySelectorAll('.album-card').forEach(card => {
         card.addEventListener('click', function (e) {
             e.preventDefault();
@@ -879,7 +1012,31 @@ function openPlayer(id, type) {
         featured: currentData.featured || []
     };
 
-    let item = (allSources[type] || []).find(el => el.id === id);
+    let item;
+    if (type === 'featured') item = currentData.featured.find(x => x.id === id);
+    else if (type === 'albums') item = currentData.albums.find(x => x.id === id);
+    else if (type === 'singles') item = currentData.singles.find(x => x.id === id);
+    else if (type === 'vinyls') item = currentData.vinyls.find(x => x.id === id);
+    else if (type === 'djs') item = currentData.djs.find(x => x.id === id);
+    else if (type === 'instrumental') item = currentData.instrumental.find(x => x.id === id);
+    else if (type === 'playlists') item = currentData.playlists.find(x => x.id === id);
+
+    if (!item || !item.embedUrl) return;
+
+    // Atualiza o iframe do player
+    const iframe = document.querySelector('.player-embed iframe');
+    if (iframe) {
+        iframe.src = item.embedUrl;
+    } else {
+        const embedContainer = document.querySelector('.player-embed');
+        embedContainer.innerHTML = `<iframe src="${item.embedUrl}" frameborder="0" allow="autoplay" scrolling="no"></iframe>`;
+    }
+
+    // Mostrar outros álbuns do mesmo artista
+    showRelatedAlbums(item.artist, id);
+
+    document.getElementById('player-bar').classList.add('active');
+	
 
     // Tentar buscar em outros arrays como fallback
     if (!item) {
@@ -979,6 +1136,76 @@ function openPlayer(id, type) {
 /*===============================================================================
 =================================================================================*/
 
+// Related Albums
+function showRelatedAlbums(artist, excludeId) {
+    const container = document.getElementById('relatedAlbums');
+    const title = document.getElementById('relatedArtistName');
+
+    if (!container || !title) return;
+
+    // Combina todas as coleções
+    const allItems = [
+        ...(currentData.albums || []),
+        ...(currentData.singles || []),
+        ...(currentData.vinyls || []),
+        ...(currentData.featured || []),
+        ...(currentData.playlists || []),
+        ...(currentData.djs || []),
+        ...(currentData.instrumental || [])
+    ];
+
+    // Filtra por artista, excluindo o álbum atual
+    const related = allItems.filter(item => item.artist === artist && item.id !== excludeId);
+
+    title.textContent = artist;
+
+    if (related.length === 0) {
+        container.innerHTML = '<p>Nenhum outro álbum encontrado.</p>';
+        return;
+    }
+
+    container.innerHTML = related.map(album => `
+        <div class="album-card" data-id="${album.id}" data-type="featured">
+			<article class="box post">
+				<div class="contents">
+					<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+						<img src="${album.image}" alt="${escapeHtml(album.title)}" class="album-image">
+					</a>
+				</div>
+				<header class="align-left">
+					<h3 class="album-title">${escapeHtml(album.title)}</h3>
+					<p class="album-artist">${escapeHtml(album.artist)}</p>
+				</header>
+			</article>
+        </div>
+    `).join('');
+	
+    // Reaplica eventos de clique nos novos cards
+    container.querySelectorAll('.album-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const id = parseInt(this.dataset.id);
+            const type = this.dataset.type;
+            openPlayer(id, type);
+        });
+    });
+}
+
+function toggleRelated(button) {
+  const $relatedContainer = $('#relatedContainer');
+  if ($relatedContainer.length === 0) return;
+
+  $relatedContainer.slideToggle(300, () => {
+    if ($relatedContainer.is(':visible')) {
+      $(button).removeClass('fa-list').addClass('fa-list');
+    } else {
+      $(button).removeClass('fa-list').addClass('fa-list');
+    }
+  });
+}
+
+/*===============================================================================
+=================================================================================*/
+
 // Save Recent Played
 function saveToRecentlyPlayed(item) {
     const key = 'recentlyPlayed';
@@ -1017,6 +1244,11 @@ function renderRecentlyPlayed() {
             musics: currentData.musics || [],
             featured: currentData.featured || []
         };
+		
+		const titleElement = document.getElementById('recentlyPlayedTitle');
+		if (titleElement) {
+			titleElement.textContent = 'Recente Acessados'; // ou qualquer título dinâmico
+		};
 
         let item = null;
         if (sourceTypes[entry.type]) {
@@ -1031,15 +1263,28 @@ function renderRecentlyPlayed() {
 
         return `
             <div class="album-card" data-id="${item.id || ''}" data-type="${entry.type}">
-                <img src="${image}" alt="${escapeHtml(title)}" class="album-image">
-                <div class="album-info">
-                    <h3>${escapeHtml(title)}</h3>
-                    <p>${escapeHtml(artist)}</p>
-                </div>
+				<article class="box post">
+				
+					<div class="content">
+						<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<img src="${image}" alt="${escapeHtml(title)}" class="album-image">
+						</a>
+						<ul class="icons">
+							<li><a href="#" class="icon solid fa-play"></a></li>
+						</ul>
+					</div>
+					
+					<header class="align-left">
+						<h3>${escapeHtml(title)}</h3>
+						<p>${escapeHtml(artist)}</p>
+					</header>
+					
+				</article>
             </div>
         `;
     }).join('');
-
+	
+	
     container.innerHTML = html;
     
     // CORRIGIDO: Adicionar event listeners
@@ -1073,8 +1318,8 @@ function togglePlayerBody(li) {
     if (sidePanel) sidePanel.style.display = isOpen ? "block" : "none";
 
     if (li) {
-        li.classList.toggle("fa-long-arrow-down", !isOpen);
-        li.classList.toggle("fa-long-arrow-up", isOpen);
+        li.classList.toggle("fa-long-arrow-up", !isOpen);
+        li.classList.toggle("fa-long-arrow-down", isOpen);
     }
 }
 
@@ -1096,6 +1341,11 @@ document.addEventListener('click', function(e) {
 function renderFeaturedPlaylists() {
     const container = document.getElementById('featuredPlaylists');
     if (!container) return;
+	
+	const titleElement = document.getElementById('featuredPlaylistsTitle');
+	if (titleElement) {
+		titleElement.textContent = 'Mixes dos DJs'; // ou qualquer título dinâmico
+	};
     
     const featuredPlaylists = (currentData.playlists || []).slice(0, 10);
     
@@ -1191,7 +1441,7 @@ function debugSearch(searchTerm = '') {
 
 function setupBannerFillColorEvents(sectionId, cardSelector = '.album-card') {
 	const $section = $('#' + sectionId);
-	const $banner = $('#banner');
+	const $banner = $('.filtered');
 
 	if (!$section.length || !$banner.length) return;
 
@@ -1217,3 +1467,29 @@ function setupBannerFillColorEvents(sectionId, cardSelector = '.album-card') {
 		}
 	});
 }
+
+// ==================================================================
+// FUNÇÕES UTILITÁRIAS ADICIONAIS A HEADER
+// ==================================================================
+
+// Função utilitária header
+document.addEventListener('DOMContentLoaded', function () {
+    const header = document.querySelector('#header');
+    const main = document.querySelector('#banner');
+
+    if (!header || !main || !header.classList.contains('alt')) return;
+
+    function updateHeaderState() {
+        if (window.scrollY > 0) {
+            header.classList.add('reveal');
+            header.classList.remove('alt');
+        } else {
+            header.classList.remove('reveal');
+            header.classList.add('alt');
+        }
+    }
+
+    window.addEventListener('scroll', updateHeaderState);
+    updateHeaderState(); // Executa na carga inicial
+});
+
