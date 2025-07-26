@@ -65,4 +65,30 @@
             visibleClass: 'is-menu-visible'
         });
 
+    // Search.
+    $(document).ready(function() {
+        // Toggle ao clicar na lupa
+        $("#nav ul li a.fa-magnifying-glass").on("click", function(e) {
+            e.preventDefault();
+            $("#search").slideToggle(0); // Animação suave
+            $("#searchInput").focus(); // Foca no input ao abrir
+        });
+
+        // Clicar fora da área fecha a busca
+        $(document).on("click", function(e) {
+            const $search = $("#search");
+            const $toggle = $("#nav ul li a.fa-magnifying-glass");
+
+            // Se clicou fora da busca e do botão, esconde
+            if (
+                !$search.is(e.target) &&
+                $search.has(e.target).length === 0 &&
+                !$toggle.is(e.target) &&
+                $toggle.has(e.target).length === 0
+            ) {
+                $search.slideUp(0);
+            }
+        });
+    });
+
 })(jQuery);
