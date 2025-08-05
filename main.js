@@ -51,42 +51,86 @@
 
     setupScrollWatch();
 
-    // Menu.
-    $menu
-        .appendTo($body)
-        .panel({
-            delay: 500,
-            hideOnClick: true,
-            hideOnSwipe: true,
-            resetScroll: true,
-            resetForms: true,
-            side: 'right',
-            target: $body,
-            visibleClass: 'is-menu-visible'
-        });
-
     // Search.
-    $(document).ready(function() {
-        // Toggle ao clicar na lupa
-        $("#nav ul li a.fa-magnifying-glass").on("click", function(e) {
+    breakpoints.on('<=small', function() {
+        $("#nav ul li a.fa-magnifying-glass").on("click.searchToggle", function(e) {
             e.preventDefault();
-            $("#search").slideToggle(0); // Animação suave
-            $("#searchInput").focus(); // Foca no input ao abrir
+            $("#search").show();
+            $("#searchInput").focus();
         });
 
-        // Clicar fora da área fecha a busca
-        $(document).on("click", function(e) {
+        $(document).on("click.searchOutside", function(e) {
             const $search = $("#search");
             const $toggle = $("#nav ul li a.fa-magnifying-glass");
 
-            // Se clicou fora da busca e do botão, esconde
             if (
                 !$search.is(e.target) &&
                 $search.has(e.target).length === 0 &&
                 !$toggle.is(e.target) &&
                 $toggle.has(e.target).length === 0
             ) {
-                $search.slideUp(0);
+                $search.hide();
+            }
+        });
+    });
+
+    breakpoints.on('>small', function() {
+        $("#nav ul li a.fa-magnifying-glass").off(".searchToggle");
+        $(document).off(".searchOutside");
+        $("#search").show();
+    });
+
+    // Menu toogle
+    $(document).ready(function() {
+        $(".menuToogle").on("click", function(e) {
+            e.preventDefault();
+            $("body").toggleClass("is-menu-visible");
+        });
+
+        $(document).on("click", function(e) {
+            const $menu = $("#menu");
+            const $toggle = $(".menuToogle");
+
+            if (
+                $("body").hasClass("is-menu-visible") &&
+                !$menu.is(e.target) &&
+                $menu.has(e.target).length === 0 &&
+                !$toggle.is(e.target) &&
+                $toggle.has(e.target).length === 0
+            ) {
+                $("body").removeClass("is-menu-visible");
+            }
+        });
+
+        $("#menu").on("click", function(e) {
+            e.stopPropagation();
+        });
+    });
+
+    $(document).ready(function() {
+        $('.toggle-dropdown').click(function(e) {
+            e.preventDefault();
+            $(this).next('.dropotron').toggleClass('dropdown-active');
+            $('.dropotron').not($(this).next('.dropotron')).removeClass('dropdown-active');
+        });
+
+        $(document).click(function(e) {
+            if (!$(e.target).closest('.toggle-dropdown, .dropotron').length) {
+                $('.dropotron').removeClass('dropdown-active');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#toggleBanner').on('click', function() {
+            const $image = $('#banner .image');
+            $image.toggleClass('hidden');
+
+            // Atualiza o texto do botão
+            if ($image.hasClass('hidden')) {
+                $(this).text('background Color');
+            } else {
+                $(this).text('background Image');
             }
         });
     });
