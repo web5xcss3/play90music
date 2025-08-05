@@ -1,14 +1,10 @@
-/*
-	Drift by web5xcss3
-	web5xcss3 | web5xcss3@gmail.com
-	Slick Slider - Dynamic Loader
-*/
 (function($) {
+
     "use strict";
 
     $(document).ready(function() {
 
-        // CORRIGIDO: Inicialização segura dos dados com fallback
+        // Inicialização segura dos dados com fallback
         let currentData = {
             djs: (typeof mockDjs !== 'undefined') ? mockDjs : [],
             artists: (typeof mockArtists !== 'undefined') ? mockArtists : [],
@@ -22,7 +18,7 @@
             timeline: (typeof mockTimeline !== 'undefined') ? mockTimeline : []
         };
 
-        // CORRIGIDO: Backup dos dados originais para reset correto
+        // Backup dos dados originais para reset correto
         const originalData = {
             djs: (typeof mockDjs !== 'undefined') ? [...mockDjs] : [],
             artists: (typeof mockArtists !== 'undefined') ? [...mockArtists] : [],
@@ -45,12 +41,12 @@
                 .replace(/>/g, '&gt;');
         }
 
-        // CORRIGIDO: DOM Elements com verificação de existência
+        // DOM Elements com verificação de existência
         const $searchInput = $('#searchInput');
         const $navButtons = $('ul li a.nav-btn');
         const $tabContents = $('section .tab-content');
 
-        // CORRIGIDO: Variável para debounce
+        // Variável para debounce
         let searchTimeout;
 
         // Initialize the app
@@ -78,9 +74,10 @@
             renderAllInstrumental();
             renderFeaturedAlbums();
             renderRecentlyPlayed();
+            renderFeaturedDjs();
         }
 
-        // CORRIGIDO: Setup de event listeners section
+        // Setup de event listeners section
         function setupEventListeners() {
             // Verificar se searchInput existe antes de adicionar listeners
             if ($searchInput.length) {
@@ -111,7 +108,7 @@
                 });
             });
 
-            // CORRIGIDO: Botões de volta com verificação
+            // Botões de volta com verificação
             $('#backToArtistsBtn').on('click', (e) => {
                 e.preventDefault();
                 switchTab('artists');
@@ -133,7 +130,7 @@
         // ==================================================================
 
         function handleSearch() {
-            // CORREÇÃO 1: Verificar se searchInput existe
+            // Verificar se searchInput existe
             if (!$searchInput.length) {
                 console.warn('Elemento searchInput não encontrado');
                 return;
@@ -142,7 +139,7 @@
             const searchTerm = $searchInput.val().toLowerCase().trim();
 
             if (searchTerm) {
-                // CORREÇÃO 2: Filtros seguros com verificações de propriedades
+                // Filtros seguros com verificações de propriedades
                 currentData = {
                     albums: (originalData.albums || []).filter(album => {
                         if (!album) return false;
@@ -211,7 +208,7 @@
                     })
                 };
             } else {
-                // CORREÇÃO 3: Reset seguro para dados originais usando cópia profunda
+                // Reset seguro para dados originais usando cópia profunda
                 currentData = {
                     albums: [...(originalData.albums || [])],
                     artists: [...(originalData.artists || [])],
@@ -226,7 +223,7 @@
                 };
             }
 
-            // CORREÇÃO 4: Re-render com tratamento de erros
+            // Re-render com tratamento de erros
             try {
                 updateStats();
                 renderAllAlbums();
@@ -239,9 +236,9 @@
                 renderAllDjs();
                 renderAllInstrumental();
                 renderFeaturedAlbums();
-                renderFeaturedPlaylists();
+                renderFeaturedDjs();
 
-                // CORREÇÃO 5: Re-renderizar yearAlbums se estiver ativo
+                // Re-renderizar yearAlbums se estiver ativo
                 const $yearAlbumsTab = $('#yearAlbums');
                 if ($yearAlbumsTab.hasClass('active')) {
                     const $yearTitle = $('#yearAlbumsTitle');
@@ -253,7 +250,7 @@
                     }
                 }
 
-                // CORREÇÃO 6: Re-renderizar subalbums se estiver ativo  
+                // Re-renderizar subalbums se estiver ativo  
                 const $subAlbumsTab = $('#subalbums');
                 if ($subAlbumsTab.hasClass('active')) {
                     const $artistTitle = $('#subalbumsTitle');
@@ -272,7 +269,7 @@
             }
         }
 
-        // CORREÇÃO 7: Função de debounce para melhorar performance
+        // Função de debounce para melhorar performance
         function debouncedHandleSearch() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(handleSearch, 300); // 300ms de delay
@@ -294,6 +291,10 @@
             $('#playlistCount').text((currentData.playlists || []).length);
         }
 
+        // ==================================================================
+        // HOME FEATURED ALBUMS
+        // ==================================================================
+
         // Funções de renderização
         function renderFeaturedAlbums() {
             const $container = $('#featuredAlbums');
@@ -314,7 +315,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${item.image || ''}">
+								<img src="${item.image || ''}" alt="${escapeHtml(item.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -341,7 +342,159 @@
             });
         }
 
-        // Outras funções de renderização seguem o mesmo padrão...
+        // ==================================================================
+        // HOME FEATURED DJS
+        // ==================================================================
+
+        // Render featured playlists
+        function renderFeaturedDjs() {
+            const $container = $('#featuredDjs');
+            if (!$container.length) return;
+
+            const $titleElement = $('#featuredDjsTitle');
+            if ($titleElement.length) {
+                $titleElement.text('Mix de DJs');
+            }
+
+            // 🔧 Filtrar apenas DJ Mix
+            const featuredDjs = (currentData.featured || [])
+                .filter(item => (item.format || '').toLowerCase().includes('dj'))
+                .sort((a, b) => (b.id || 0) - (a.id || 0))
+                .slice(0, 5);
+
+            $container.html(featuredDjs.map(playlist => `
+		<div class="album-card" data-id="${playlist.id || ''}" data-type="featured">
+			<article class="box post">
+				<div class="content">
+					<a href="#" class="image fit avg md-ripples ripples-light" data-position="center">
+						<img src="${playlist.image || ''}" alt="${escapeHtml(playlist.artist || '')}" loading="lazy">
+					</a>
+					<ul class="icons">
+						<li><a href="#" class="icon solid fa-play"></a></li>
+					</ul>
+				</div>
+				<header class="align-left">
+					<h3 class="playlist-artist">${escapeHtml(playlist.artist || '')}</h3>
+					<p class="playlist-title">${escapeHtml(playlist.title || '')}</p>
+				</header>
+			</article>
+		</div>
+	`).join(''));
+
+            // Adicionar event listeners
+            $container.find('.album-card').on('click', function(e) {
+                e.stopPropagation();
+                const id = parseInt($(this).data('id'));
+                const type = $(this).data('type');
+                if (!isNaN(id)) {
+                    openPlayer(id, type);
+                }
+            });
+
+            setupBannerFillColorEvents('featuredPlaylists');
+
+            // Aplicar fillColor nos elementos com .avg
+            $('.avg').fillColor({
+                type: 'avg'
+            });
+        }
+
+        // ==================================================================
+        // HOME RECENT PLAYED
+        // ==================================================================
+
+        // Recent Played
+        function renderRecentlyPlayed() {
+            const $container = $('#recentlyPlayed');
+            if (!$container.length) return;
+
+            const stored = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
+
+            const html = stored.map(entry => {
+                const sourceTypes = {
+                    album: currentData.albums || [],
+                    albums: currentData.albums || [],
+                    playlist: currentData.playlists || [],
+                    playlists: currentData.playlists || [],
+                    instrumental: currentData.instrumental || [],
+                    djs: currentData.djs || [],
+                    vinyls: currentData.vinyls || [],
+                    singles: currentData.singles || [],
+                    musics: currentData.musics || [],
+                    featured: currentData.featured || []
+                };
+
+                const $titleElement = $('#recentlyPlayedTitle');
+                if ($titleElement.length) {
+                    $titleElement.text('Recente');
+                };
+
+                let item = null;
+                if (sourceTypes[entry.type]) {
+                    item = sourceTypes[entry.type].find(i => i.id === entry.id);
+                }
+
+                if (!item) return '';
+
+                const title = item.title || item.name || "Sem título";
+                const artist = item.artist || "Vários Artistas";
+                const image = item.image || "https://assets.audiomack.com/default-album-image.png";
+
+                return `
+				<div class="album-card" data-id="${item.id || ''}" data-type="${entry.type}">
+					<article class="box post">
+						<div class="content">
+							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+								<img src="${image}" alt="${escapeHtml(title)}" loading="lazy">
+							</a>
+							<ul class="icons">
+								<li><a href="#" class="icon solid fa-play"></a></li>
+							</ul>
+						</div>
+					
+						<header class="align-left">
+							<h3>${escapeHtml(title)}</h3>
+							<p>${escapeHtml(artist)}</p>
+						</header>
+					
+					</article>
+				</div>
+			`;
+            }).join('');
+
+            $container.html(html);
+
+            // Adicionar event listeners
+            $container.find('.album-card').on('click', function() {
+                const id = parseInt($(this).data('id'));
+                const type = $(this).data('type');
+                if (!isNaN(id)) {
+                    openPlayer(id, type);
+                }
+            });
+        }
+
+        // Save Recent Played
+        function saveToRecentlyPlayed(item) {
+            const key = 'recentlyPlayed';
+            const stored = JSON.parse(localStorage.getItem(key)) || [];
+
+            // Remove duplicados (mesmo id e tipo)
+            const filtered = stored.filter(entry => !(entry.id === item.id && entry.type === item.type));
+
+            // Coloca o novo no topo
+            filtered.unshift(item);
+
+            // Limita a 4
+            const updated = filtered.slice(0, 4);
+            localStorage.setItem(key, JSON.stringify(updated));
+
+            renderRecentlyPlayed();
+        }
+
+        // ==================================================================
+        // INSTRUMENTALS
+        // ==================================================================
 
         // Funções de renderização allInstrumental
         function renderAllInstrumental() {
@@ -359,7 +512,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${inst.image || ''}">
+								<img src="${inst.image || ''}" alt="${escapeHtml(inst.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -384,6 +537,10 @@
             });
         }
 
+        // ==================================================================
+        // DJ'S
+        // ==================================================================
+
         // Funções de renderização allDjs
         function renderAllDjs() {
             const $container = $('#allDjs');
@@ -400,7 +557,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${dj.image || ''}">
+								<img src="${dj.image || ''}" alt="${escapeHtml(dj.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -425,35 +582,56 @@
             });
         }
 
+        // ==================================================================
+        // MUSICS
+        // ==================================================================
+
         // Funções de renderização allMusics
         function renderMusics() {
             const $container = $('#allMusics');
             if (!$container.length) return;
 
-            const sortedMusics = (currentData.musics || [])
-                .slice()
+            const sortedMusics = (currentData.featured || [])
+                .filter(music => music.format === "Music") // 🔍 apenas músicas
                 .sort((a, b) => (b.id || 0) - (a.id || 0))
                 .slice(0, 500);
 
-            // Verifica se a lista está vazia
             if (sortedMusics.length === 0) {
                 $container.html(`<p class="icon solid fa-record-vinyl empty-message"> Nenhuma música encontrada.</p>`);
                 return;
             }
 
-            $container.html(sortedMusics.map(music => `
-				<div class="album-card md-ripples ripples-light" data-id="${music.id || ''}" data-type="musics">
-					<img src="${music.image || ''}">
-					<div class="album-info">
-						<h3 class="album-title">${escapeHtml(music.title || '')}</h3>
-						<p class="album-artist">${escapeHtml(music.artist || '')}</p>
-					</div>
-				</div>
-			`).join(''));
+            const html = sortedMusics.map(music => {
+                const id = music.id || '';
+                const title = escapeHtml(music.title || 'Sem título');
+                const artist = escapeHtml(music.artist || 'Desconhecido');
+                const image = music.image || 'https://assets.audiomack.com/default-album-image.png';
+
+                return `
+            <div class="album-card md-ripples ripples-light" data-id="${id}" data-type="featured">
+				<article class="box post">
+						<div class="content">
+							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+								<img src="${image}" alt="${title} - ${artist}" alt="${escapeHtml(music.title || '')}" loading="lazy">
+							</a>
+							<ul class="icons">
+								<li><a href="#" class="icon solid fa-play"></a></li>
+							</ul>
+						</div>
+        
+                <header class="align-left">
+                    <h3 class="album-title">${title}</h3>
+                    <p class="album-artist">${artist}</p>
+                </header>
+				</article>
+            </div>
+        `;
+            }).join('');
+
+            $container.html(html);
 
             setupBannerFillColorEvents('allMusics');
 
-            // Adicionar eventos
             $container.find('.album-card').on('click', function() {
                 const id = parseInt($(this).data('id'));
                 const type = $(this).data('type');
@@ -462,6 +640,10 @@
                 }
             });
         }
+
+        // ==================================================================
+        // ALBUMS
+        // ==================================================================
 
         // Funções de renderização allAlbums
         function renderAllAlbums() {
@@ -479,7 +661,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${album.image || ''}">
+								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -504,6 +686,10 @@
             });
         }
 
+        // ==================================================================
+        //	ARTISTS
+        // ==================================================================
+
         // Funções de renderização allArtists
         function renderAllArtists() {
             const $container = $('#allArtists');
@@ -522,7 +708,7 @@
                     acc[album.artist] = {
                         name: album.artist,
                         albumCount: 0,
-                        image: album.image || 'default-artist.jpg'
+                        image: album.image || 'https://assets.audiomack.com/default-album-image.png'
                     };
                 }
                 acc[album.artist].albumCount++;
@@ -536,7 +722,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit circles md-ripples ripples-light" data-position="center">
-								<img src="${artist.image}">
+								<img src="${artist.image}" alt="${escapeHtml(artist.name)}" loading="lazy">
 							</a>
 						</div>
 						<header class="align-center">
@@ -553,7 +739,16 @@
                 const artist = $(this).data('artist');
                 renderSubAlbumsByArtist(artist);
             });
+
+            // Aplicar fillColor nos elementos com .avg
+            $('.avg').fillColor({
+                type: 'avg'
+            });
         }
+
+        // ==================================================================
+        // PLAYER RENDER ALBUMS
+        // ==================================================================
 
         // Funções de renderização suballAlbums
         function renderSubAlbumsByArtist(artist) {
@@ -586,7 +781,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${album.image || ''}">
+								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -599,7 +794,7 @@
 					</article>
 				</div>
 			`;
-			}).join(''));
+            }).join(''));
 
             setupBannerFillColorEvents('suballAlbums');
 
@@ -614,6 +809,10 @@
 
             switchTab('subalbums');
         }
+
+        // ==================================================================
+        // VINYLS
+        // ==================================================================
 
         // Funções de renderização allVinyls
         function renderAllVinyls() {
@@ -631,7 +830,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${album.image || ''}">
+								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -656,6 +855,10 @@
             });
         }
 
+        // ==================================================================
+        // SINGLES
+        // ==================================================================
+
         // Funções de renderização allSingles
         function renderAllSingles() {
             const $container = $('#allSingles');
@@ -672,7 +875,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${album.image || ''}">
+								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -697,6 +900,10 @@
             });
         }
 
+        // ==================================================================
+        // PLAYLISTS
+        // ==================================================================
+
         // Funções de renderização allPlaylists
         function renderAllPlaylists() {
             const $container = $('#allPlaylists');
@@ -713,7 +920,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${playlist.image || ''}">
+								<img src="${playlist.image || ''}" alt="${escapeHtml(playlist.title || '')}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -737,6 +944,10 @@
                 }
             });
         }
+
+        // ==================================================================
+        // TIMELINE
+        // ==================================================================
 
         // Timeline segura e ordenada corretamente
         function renderTimeline() {
@@ -769,7 +980,7 @@
             $container.html(timelineYears.map(year => `
 				<div class="timeline-card md-ripples ripples-light" data-year="${year.name}">
 					<h3>${year.name}</h3>
-					<p>${year.albumCount} álbuns lançados</p>
+					<p>${year.albumCount} álbuns</p>
 				</div>
 			`).join(''));
 
@@ -811,7 +1022,7 @@
 					<article class="box post">
 						<div class="content">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${album.image}">
+								<img src="${album.image}" alt="${escapeHtml(album.title)}" loading="lazy">
 							</a>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
@@ -834,10 +1045,16 @@
             });
 
             setupBannerFillColorEvents('yearAlbumsList');
+
             switchTab('yearAlbums');
+
         }
 
-        // CORRIGIDO: Função openPlayer melhorada
+        // ==================================================================
+        // PLAYER
+        // ==================================================================
+
+        // Função openPlayer melhorada
         function openPlayer(id, type) {
             const allSources = {
                 album: currentData.albums || [],
@@ -963,6 +1180,10 @@
             });
         }
 
+        // ==================================================================
+        // RELATED ALBUMS
+        // ==================================================================
+
         // Related Albums
         function showRelatedAlbums(artist, excludeId) {
             const $container = $('#relatedAlbums');
@@ -996,7 +1217,7 @@
 					<article class="box post">
 						<div class="contents">
 							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${album.image}">
+								<img src="${album.image}" alt="${escapeHtml(album.title)}" loading="lazy">
 							</a>
 						</div>
 						<header class="align-left">
@@ -1013,6 +1234,7 @@
                 const type = $(this).data('type');
                 openPlayer(id, type);
             });
+
         }
 
         function toggleRelated(li) {
@@ -1027,100 +1249,11 @@
                 }
             });
         }
-		
-		$(document).on("click", ".fa-list, .fa-list", function (e) {
-			e.preventDefault();
-			toggleRelated(this);
-		});
 
-        // Save Recent Played
-        function saveToRecentlyPlayed(item) {
-            const key = 'recentlyPlayed';
-            const stored = JSON.parse(localStorage.getItem(key)) || [];
-
-            // Remove duplicados (mesmo id e tipo)
-            const filtered = stored.filter(entry => !(entry.id === item.id && entry.type === item.type));
-
-            // Coloca o novo no topo
-            filtered.unshift(item);
-
-            // Limita a 4
-            const updated = filtered.slice(0, 4);
-            localStorage.setItem(key, JSON.stringify(updated));
-
-            renderRecentlyPlayed();
-        }
-
-        // Recent Played
-        function renderRecentlyPlayed() {
-            const $container = $('#recentlyPlayed');
-            if (!$container.length) return;
-
-            const stored = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
-
-            const html = stored.map(entry => {
-                const sourceTypes = {
-                    album: currentData.albums || [],
-                    albums: currentData.albums || [],
-                    playlist: currentData.playlists || [],
-                    playlists: currentData.playlists || [],
-                    instrumental: currentData.instrumental || [],
-                    djs: currentData.djs || [],
-                    vinyls: currentData.vinyls || [],
-                    singles: currentData.singles || [],
-                    musics: currentData.musics || [],
-                    featured: currentData.featured || []
-                };
-
-                const $titleElement = $('#recentlyPlayedTitle');
-                if ($titleElement.length) {
-                    $titleElement.text('Recente Acessados');
-                };
-
-                let item = null;
-                if (sourceTypes[entry.type]) {
-                    item = sourceTypes[entry.type].find(i => i.id === entry.id);
-                }
-
-                if (!item) return '';
-
-                const title = item.title || item.name || "Sem título";
-                const artist = item.artist || "Vários Artistas";
-                const image = item.image || "https://placehold.co/300x300?text=Música";
-
-                return `
-				<div class="album-card" data-id="${item.id || ''}" data-type="${entry.type}">
-					<article class="box post">
-						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
-								<img src="${image}">
-							</a>
-							<ul class="icons">
-								<li><a href="#" class="icon solid fa-play"></a></li>
-							</ul>
-						</div>
-					
-						<header class="align-left">
-							<h3>${escapeHtml(title)}</h3>
-							<p>${escapeHtml(artist)}</p>
-						</header>
-					
-					</article>
-				</div>
-			`;
-            }).join('');
-
-            $container.html(html);
-
-            // Adicionar event listeners
-            $container.find('.album-card').on('click', function() {
-                const id = parseInt($(this).data('id'));
-                const type = $(this).data('type');
-                if (!isNaN(id)) {
-                    openPlayer(id, type);
-                }
-            });
-        }
+        $(document).on("click", ".fa-list, .fa-list", function(e) {
+            e.preventDefault();
+            toggleRelated(this);
+        });
 
         // Toggle Player Body
         function togglePlayerBody(li) {
@@ -1142,11 +1275,11 @@
                 $(li).toggleClass("fa-long-arrow-down", isOpen);
             }
         }
-		
-		$(document).on("click", ".fa-long-arrow-up, .fa-long-arrow-down", function (event) {
-			event.preventDefault();
-			togglePlayerBody(this);
-		});
+
+        $(document).on("click", ".fa-long-arrow-up, .fa-long-arrow-down", function(event) {
+            event.preventDefault();
+            togglePlayerBody(this);
+        });
 
         // Content transition
         $(document).on('click', function(e) {
@@ -1158,41 +1291,6 @@
                 }, 100);
             }
         });
-
-        // CORRIGIDO: Render featured playlists
-        function renderFeaturedPlaylists() {
-            const $container = $('#featuredPlaylists');
-            if (!$container.length) return;
-
-            const $titleElement = $('#featuredPlaylistsTitle');
-            if ($titleElement.length) {
-                $titleElement.text('Mixes dos DJs');
-            }
-
-            const featuredPlaylists = (currentData.playlists || []).slice(0, 10);
-
-            $container.html(featuredPlaylists.map(playlist => `
-				<div class="playlist-card md-ripples ripples-light" data-id="${playlist.id || ''}" data-type="playlist">
-					<img src="${playlist.image || ''}">
-					<div class="playlist-info">
-						<h3 class="playlist-name">${escapeHtml(playlist.name || '')}</h3>
-						<button class="playlist-play-btn" data-id="${playlist.id || ''}" data-type="playlist">
-							Play Mix
-						</button>
-					</div>
-				</div>
-			`).join(''));
-
-            // Adicionar event listeners
-            $container.find('.playlist-play-btn').on('click', function(e) {
-                e.stopPropagation();
-                const id = parseInt($(this).data('id'));
-                const type = $(this).data('type');
-                if (!isNaN(id)) {
-                    openPlayer(id, type);
-                }
-            });
-        }
 
         // Funções utilitárias adicionais
         function clearSearch() {
@@ -1236,6 +1334,10 @@
             });
             console.log('SearchInput element:', $searchInput);
         }
+
+        // ==================================================================
+        // BANNER
+        // ==================================================================
 
         // Funções utilitárias adicionais a banner
         function setupBannerFillColorEvents(sectionId, cardSelector = '.album-card') {
