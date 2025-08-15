@@ -75,6 +75,7 @@
             renderFeaturedAlbums();
             renderRecentlyPlayed();
             renderFeaturedDjs();
+            renderDailyHit();
         }
 
         // Setup de event listeners section
@@ -237,6 +238,7 @@
                 renderAllInstrumental();
                 renderFeaturedAlbums();
                 renderFeaturedDjs();
+                renderDailyHit();
 
                 // Re-renderizar yearAlbums se estiver ativo
                 const $yearAlbumsTab = $('#yearAlbums');
@@ -314,17 +316,19 @@
 				<div class="album-card" data-id="${item.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="stack1"></div>
+							<div class="stack2"></div>
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${item.image || ''}" alt="${escapeHtml(item.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
 						</div>
 			
 						<header class="align-left">
-							<h3 class="album-title">${escapeHtml(item.title || '')}</h3>
-							<p class="album-artist">${escapeHtml(item.artist || '')}</p>
+							<h3 class="album-artist">${escapeHtml(item.artist || '')}</h3>
+							<p class="album-title">${escapeHtml(item.title || '')}</p>
 						</header>
 					</article>
 				</div>
@@ -333,6 +337,94 @@
             setupBannerFillColorEvents('featuredAlbums');
 
             // Adicionar event listeners para os cards
+            $container.find('.album-card').on('click', function() {
+                const id = parseInt($(this).data('id'));
+                const type = $(this).data('type');
+                if (!isNaN(id)) {
+                    openPlayer(id, type);
+                }
+            });
+        }
+
+        // ==================================================================
+        // HOME FEATURED DAY HITS
+        // ==================================================================
+
+        function renderDailyHit(count = 5) {
+            const $container = $('#dailyHit');
+            if (!$container.length) return;
+
+            const $titleElement = $('#dailyHitTitle');
+            if ($titleElement.length) {
+                $titleElement.text('Hits de hoje');
+            }
+
+            const today = new Date().toISOString().slice(0, 10); // AAAA-MM-DD
+
+            // 🔹 Recupera do cache
+            let cachedData = localStorage.getItem('dailyHit');
+            let dailyHits = [];
+
+            if (cachedData) {
+                try {
+                    cachedData = JSON.parse(cachedData);
+                    // Só usa o cache se for do mesmo dia
+                    if (cachedData.date === today) {
+                        dailyHits = cachedData.items;
+                    }
+                } catch (e) {
+                    console.error('Erro ao ler cache de Hits do Dia:', e);
+                }
+            }
+
+            // 🔹 Se não houver cache válido, gera nova seleção
+            if (!dailyHits.length) {
+                const items = (currentData.featured || [])
+                    .sort(() => Math.random() - 0.5) // embaralha
+                    .slice(0, count); // pega a quantidade desejada
+
+                dailyHits = items;
+
+                // Salva no cache
+                localStorage.setItem('dailyHit', JSON.stringify({
+                    date: today,
+                    items: dailyHits
+                }));
+            }
+
+            // 🔹 Renderiza na tela
+            if (!dailyHits.length) {
+                $container.html('<p>Nenhum hit disponível hoje.</p>');
+                return;
+            }
+
+            const html = dailyHits.map(item => `
+        <div class="album-card daily-hit" data-id="${item.id || ''}" data-type="featured">
+            <article class="box post">
+                <div class="content">
+                    <div class="image fit avg md-ripples ripples-light" data-position="center">
+                        <img src="${item.image || ''}" alt="${escapeHtml(item.title || '')}" loading="lazy">
+                    </div>
+                    <ul class="icons">
+                        <li><a href="#" class="icon solid fa-play"></a></li>
+                    </ul>
+                </div>
+                <header class="align-left">
+                    <h3 class="album-artist">${escapeHtml(item.artist || '')}</h3>
+					<p class="album-title">${escapeHtml(item.title || '')}</p>
+                </header>
+            </article>
+        </div>
+    `).join('');
+
+            $container.html(html);
+
+            // Aplica fillColor apenas no container atual
+            $container.find('.avg').fillColor({
+                type: 'avg'
+            });
+
+            // 🔹 Evento de clique para abrir player
             $container.find('.album-card').on('click', function() {
                 const id = parseInt($(this).data('id'));
                 const type = $(this).data('type');
@@ -366,9 +458,9 @@
 		<div class="album-card" data-id="${playlist.id || ''}" data-type="featured">
 			<article class="box post">
 				<div class="content">
-					<a href="#" class="image fit avg md-ripples ripples-light" data-position="center">
+					<div class="image fit md-ripples ripples-light" data-position="center">
 						<img src="${playlist.image || ''}" alt="${escapeHtml(playlist.artist || '')}" loading="lazy">
-					</a>
+					</div>
 					<ul class="icons">
 						<li><a href="#" class="icon solid fa-play"></a></li>
 					</ul>
@@ -444,9 +536,9 @@
 				<div class="album-card" data-id="${item.id || ''}" data-type="${entry.type}">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${image}" alt="${escapeHtml(title)}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -486,7 +578,7 @@
             filtered.unshift(item);
 
             // Limita a 4
-            const updated = filtered.slice(0, 4);
+            const updated = filtered.slice(0, 5);
             localStorage.setItem(key, JSON.stringify(updated));
 
             renderRecentlyPlayed();
@@ -511,9 +603,9 @@
 				<div class="album-card" data-id="${inst.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${inst.image || ''}" alt="${escapeHtml(inst.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -556,9 +648,9 @@
 				<div class="album-card" data-id="${dj.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${dj.image || ''}" alt="${escapeHtml(dj.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -611,9 +703,9 @@
             <div class="album-card md-ripples ripples-light" data-id="${id}" data-type="featured">
 				<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${image}" alt="${title} - ${artist}" alt="${escapeHtml(music.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -660,9 +752,9 @@
 				<div class="album-card" data-id="${album.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -721,9 +813,9 @@
 				<div class="artist-card" data-artist="${artist.name}">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit circles md-ripples ripples-light" data-position="center">
+							<div class="image fit circles md-ripples ripples-light" data-position="center">
 								<img src="${artist.image}" alt="${escapeHtml(artist.name)}" loading="lazy">
-							</a>
+							</div>
 						</div>
 						<header class="align-center">
 							<h3>${escapeHtml(artist.name)}</h3>
@@ -780,9 +872,9 @@
 				<div class="album-card" data-id="${album.id || ''}" data-type="${albumType}">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -829,9 +921,9 @@
 				<div class="album-card" data-id="${album.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -874,9 +966,9 @@
 				<div class="album-card" data-id="${album.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${album.image || ''}" alt="${escapeHtml(album.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -919,9 +1011,9 @@
 				<div class="album-card" data-id="${playlist.id || ''}" data-type="featured">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${playlist.image || ''}" alt="${escapeHtml(playlist.title || '')}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -1021,9 +1113,9 @@
 				<div class="album-card" data-id="${album.id}" data-type="${albumType}">
 					<article class="box post">
 						<div class="content">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit md-ripples ripples-light" data-position="center">
 								<img src="${album.image}" alt="${escapeHtml(album.title)}" loading="lazy">
-							</a>
+							</div>
 							<ul class="icons">
 								<li><a href="#" class="icon solid fa-play"></a></li>
 							</ul>
@@ -1214,11 +1306,11 @@
 
             $container.html(related.map(album => `
 				<div class="album-card" data-id="${album.id}" data-type="featured">
-					<article class="box post">
+					<article class="box post md-ripples ripples-light">
 						<div class="contents">
-							<a href="#" class="image fit md-ripples ripples-light" data-position="center">
+							<div class="image fit" data-position="center">
 								<img src="${album.image}" alt="${escapeHtml(album.title)}" loading="lazy">
-							</a>
+							</div>
 						</div>
 						<header class="align-left">
 							<h3 class="album-title">${escapeHtml(album.title)}</h3>
