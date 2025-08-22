@@ -1465,6 +1465,92 @@
             });
         }
 
+		 // ==================================================================
+        // PROGRESS BAR
+        // ==================================================================
+
+        // Cria progress-bar se não existir
+        if (!$('#progress-bar').length) {
+            $('body').prepend('<div id="progress-bar"></div>');
+        }
+
+        // Cria spinner dentro do player se não existir
+        if (!$('#spinner').length) {
+            $('.player-embed').prepend(`
+				<div id="spinner" aria-label="Carregando">
+					<div class="inner">
+						<svg viewBox="0 0 50 50" class="spinner-svg">
+							<circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+						</svg>
+					</div>
+				</div>
+			`);
+        }
+
+        // Estilo único para progress-bar e spinner
+        const style = `
+			<style>
+				#progress-bar {position: fixed;top: 0;left: 0;height: 3px;width: 0%;background: #f00;z-index: 100001;opacity: 0;}.player-embed {position: relative;min-height: 300px;}#spinner {position: relative;background: #000;height: 100%;width: 100%;display: none;z-index: 1;}.inner {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 10;}.spinner-svg {width: 48px;height: 48px;animation: rotate 2s linear infinite;}.spinner-path {stroke: #f00;stroke-linecap: round;animation: dash 1.5s ease-in-out infinite;}@keyframes rotate {100% {transform: rotate(360deg);}}@keyframes dash {0% {stroke-dasharray: 1, 150;stroke-dashoffset: 0;}50% {stroke-dasharray: 90, 150;stroke-dashoffset: -35;}100% {stroke-dasharray: 90, 150;stroke-dashoffset: -124;}}
+			</style>
+		`;
+        $('head').append(style);
+
+        // Funções de controle
+        const startProgress = () => {
+            $('#progress-bar')
+                .stop(true, true)
+                .css({
+                    width: '0%',
+                    opacity: 1,
+                    display: 'block'
+                })
+                .animate({
+                    width: '80%'
+                }, 500);
+        };
+
+        const finishProgress = () => {
+            $('#progress-bar')
+                .stop(true)
+                .animate({
+                    width: '100%'
+                }, 300, function() {
+                    $(this).delay(100).fadeOut(400, () => {
+                        $(this).css({
+                            width: '0%',
+                            display: 'none'
+                        });
+                    });
+                });
+        };
+
+        function loadIframe(url) {
+            const iframe = $('#playerFrame');
+            const spinner = $('#spinner');
+
+            startProgress();
+            spinner.fadeIn(200);
+
+            iframe.attr('src', url);
+
+            iframe.off('load').on('load', function() {
+                finishProgress();
+                spinner.fadeOut(300);
+            });
+        }
+
+        // 1. Ao abrir o site
+        startProgress();
+        $(document).ready(function() {
+            setTimeout(() => finishProgress(), 500);
+        });
+
+        // 2. Ao clicar em album-card
+        $(document).on("click", ".album-card", function() {
+            const url = $(this).data("url");
+            loadIframe(url);
+        });
+
     });
 
 })(jQuery);
