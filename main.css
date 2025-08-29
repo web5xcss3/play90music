@@ -2098,6 +2098,7 @@ input, select, textarea {
 		bottom: 5em;
 		padding: 1em;
 		display: none;
+		z-index: 5;
 	}
 
 		#relatedContainer #relatedAlbums {
@@ -2127,7 +2128,7 @@ input, select, textarea {
 				-ms-transition: background-color 0.2s ease;
 				transition: background-color 0.2s ease;
 				border-radius: 0.5em;
-				background: rgba(255,255,255,0.1);
+				background: rgba(255,255,255,0.075);
 				padding: 0.5em;
 				width: 15em;
 				cursor: pointer;
@@ -2142,48 +2143,99 @@ input, select, textarea {
 				#relatedContainer #relatedAlbums .album-card .box .image {
 					width: 4em;
 					height: 4em;
-					border-radius: 5em;
+					border-radius: 0.5em;
 					margin: 0;
 				}
-					
-					#relatedContainer #relatedAlbums .album-card .box .image:after {
-						background-color: transparent
+
+					#relatedContainer #relatedAlbums .album-card .box .image img {
+						border-radius: 0.5em;
 					}
 
-				#relatedContainer #relatedAlbums h3, #relatedContainer #relatedAlbums .album-card p {
-					font-size: 0.9em
+					#relatedContainer #relatedAlbums .album-card .box .image:after {
+						border-radius: 0.5em;
+					}
+
+				#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt1 {
+					padding: 0
 				}
 
-				#relatedContainer #relatedAlbums .album-card p {
+					#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt1 a.icon {
+						font-size: 1.25em
+					}
+
+				#relatedContainer #relatedAlbums .album-card .box ul.icons li a.icon {
+					transform: none;
+					height: 2.25em;
+					width: 2.25em;
+					line-height: 2.25em;
+					border: 0;
+				}
+
+				#relatedContainer #relatedAlbums .album-card.current .box {
+					background: rgba(255,255,255,0.2);
+				}
+
+					#relatedContainer #relatedAlbums .album-card.current .box .image:after {
+						background: rgba(0,0,0, 0.5)
+					}
+
+					#relatedContainer #relatedAlbums .album-card.current .box ul.icons {
+						opacity: 1
+					}
+
+						#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt1, 
+						#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt2 {
+							display: none;
+						}
+
+						#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 {
+							display: block;
+						}
+
+							#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 a.icon.wave {
+								background-color: transparent
+							}
+
+								#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 a.icon.wave span {
+									background-color: #fff
+								}
+
+				#relatedContainer #relatedAlbums .album-card .box header h3, 
+				#relatedContainer #relatedAlbums .album-card .box header p {
+					font-size: 0.9em;
+					color: #ffffff;
+				}
+
+				#relatedContainer #relatedAlbums .album-card .box header p {
 					margin: 0
 				}
 
-		#relatedContainer .related-grid {
-			overflow-x: auto;
-			scroll-snap-type: x mandatory;
-			scroll-behavior: smooth;
-			-webkit-overflow-scrolling: touch;
-			/* Estilo para Firefox */
-			scrollbar-width: thin; /* thin, auto, none */
-			scrollbar-color: #545454 #333; /* thumb track */
-		}
+			#relatedContainer #relatedAlbums.related-grid {
+				overflow-x: auto;
+				scroll-snap-type: x mandatory;
+				scroll-behavior: smooth;
+				-webkit-overflow-scrolling: touch;
+				/* Estilo para Firefox */
+				scrollbar-width: thin; /* thin, auto, none */
+				scrollbar-color: #545454 #333; /* thumb track */
+			}
 
-			/* Estilo para WebKit: Chrome, Edge, Safari */
-			#relatedContainer .related-grid::-webkit-scrollbar {
-				height: 8px;
-				display: block;
-			}
-			
-			#relatedContainer .related-grid::-webkit-scrollbar-thumb {
-				background-color: rgba(255, 255, 255, 0.2);
-				border-radius: 4px;
-				border: 2px solid rgba(255, 255, 255, 0.2);
-			}
-			
-			#relatedContainer .related-grid::-webkit-scrollbar-track {
-				background-color: #333;
-			}
-			
+				/* Estilo para WebKit: Chrome, Edge, Safari */
+				#relatedContainer #relatedAlbums.related-grid::-webkit-scrollbar {
+					height: 8px;
+					display: block;
+				}
+
+				#relatedContainer #relatedAlbums.related-grid::-webkit-scrollbar-thumb {
+					background-color: rgba(255, 255, 255, 0.2);
+					border-radius: 4px;
+					border: 2px solid rgba(255, 255, 255, 0.2);
+				}
+
+				#relatedContainer #relatedAlbums.related-grid::-webkit-scrollbar-track {
+					background-color: #333;
+				}
+
 	body.is-menu-visible #relatedContainer {
 		margin-left: 6em;
 	}
@@ -2272,12 +2324,26 @@ input, select, textarea {
 				flex: 1 0 auto;
 			}
 
-				#player-bar ul.icons li a.fa-long-arrow-up {
+				#player-bar ul.icons li a.fa-long-arrow-down {
 					-moz-transition: -moz-transform 0.2s ease;
 					-webkit-transition: -webkit-transform 0.2s ease;
 					-ms-transition: -ms-transform 0.2s ease;
 					transition: transform 0.2s ease;
+					-moz-transform: rotate(180deg);
+					-webkit-transform: rotate(180deg);
+					-o-transform: rotate(180deg);
+					-ms-transform: rotate(180deg);
+					transform: rotate(180deg);
+					display: inline-block;
 				}
+
+					#player-bar ul.icons li a.fa-long-arrow-down.rotated {
+						-moz-transform: rotate(0deg);
+						-webkit-transform: rotate(0deg);
+						-o-transform: rotate(0deg);
+						-ms-transform: rotate(0deg);
+						transform: rotate(0deg);
+					}
 
 /* Menu */
 
