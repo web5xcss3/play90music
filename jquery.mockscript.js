@@ -76,6 +76,7 @@
             renderRecentlyPlayed();
             renderFeaturedDjs();
             renderDailyHit();
+            renderDailyFeaturedTitles();
         }
 
         // Setup de event listeners section
@@ -86,9 +87,9 @@
                 $searchInput.on('input', debouncedHandleSearch);
 
                 // Também escutar evento de keypress para enter
-                $searchInput.on('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
+                $searchInput.on('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
                         handleSearch();
                     }
                 });
@@ -100,8 +101,8 @@
 
             // Configurar navegação entre tabs
             $navButtons.each(function() {
-                $(this).on('click', (e) => {
-                    e.preventDefault();
+                $(this).on('click', (event) => {
+                    event.preventDefault();
                     const tab = $(this).data('tab');
                     if (tab) {
                         switchTab(tab);
@@ -110,18 +111,18 @@
             });
 
             // Botões de volta com verificação
-            $('#backToArtistsBtn').on('click', (e) => {
-                e.preventDefault();
+            $('#backToArtistsBtn').on('click', (event) => {
+                event.preventDefault();
                 switchTab('artists');
             });
 
-            $('#backToTimelineBtn').on('click', (e) => {
-                e.preventDefault();
+            $('#backToTimelineBtn').on('click', (event) => {
+                event.preventDefault();
                 switchTab('timeline');
             });
 
-            $('#instrumentalArtists, #djsArtists, #vinylsArtists, #singlesArtists, #albumsArtists, #playlistsArtists, #musicsArtists').on('click', (e) => {
-                e.preventDefault();
+            $('#instrumentalArtists, #djsArtists, #vinylsArtists, #singlesArtists, #albumsArtists, #playlistsArtists, #musicsArtists').on('click', (event) => {
+                event.preventDefault();
                 switchTab('artists');
             });
         }
@@ -239,6 +240,7 @@
                 renderFeaturedAlbums();
                 renderFeaturedDjs();
                 renderDailyHit();
+                renderDailyFeaturedTitles();
 
                 // Re-renderizar yearAlbums se estiver ativo
                 const $yearAlbumsTab = $('#yearAlbums');
@@ -431,6 +433,109 @@
                 if (!isNaN(id)) {
                     openPlayer(id, type);
                 }
+            });
+        }
+
+        // ==================================================================
+        // HOME FEATURED ESPECIAL TITULOS
+        // ==================================================================
+
+        // Função para embaralhar um array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderDailyFeaturedTitles() {
+            const $container = $('#dailyFeaturedTitles');
+            const $titleElement = $('#dailyFeaturedTitle');
+            if (!$container.length) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            const cacheKey = 'dailyFeaturedTitlesCache';
+            const indexKey = 'dailyFeaturedIndex';
+
+            const targetThemes = ["let me be", "i believe", "love", "hot", "energy", "party", "relax"];
+
+            let selected = [];
+            let currentIndex = parseInt(localStorage.getItem(indexKey)) || 0;
+            let themeOfDay = "";
+
+            // Limpa cache se a data mudou
+            let cachedData = JSON.parse(localStorage.getItem(cacheKey)) || {};
+            if (cachedData.date !== today) {
+                localStorage.removeItem(cacheKey);
+                cachedData = {};
+            }
+
+            if (cachedData.items && cachedData.items.length) {
+                selected = cachedData.items;
+                themeOfDay = cachedData.theme || "";
+            } else {
+                const total = targetThemes.length;
+                let attempts = 0;
+
+                while (attempts < total) {
+                    themeOfDay = targetThemes[currentIndex % total];
+
+                    // Filtra todos os itens com o tema do dia
+                    const matchingItems = (currentData.featured || []).filter(item =>
+                        item.theme && item.theme.toLowerCase() === themeOfDay.toLowerCase()
+                    );
+
+                    if (matchingItems.length > 0) {
+                        selected = shuffleArray(matchingItems);
+
+                        localStorage.setItem(indexKey, (currentIndex + 1) % total);
+                        localStorage.setItem(cacheKey, JSON.stringify({
+                            date: today,
+                            theme: themeOfDay,
+                            items: selected
+                        }));
+
+                        break;
+                    } else {
+                        currentIndex = (currentIndex + 1) % total;
+                        attempts++;
+                    }
+                }
+            }
+
+            // Atualiza o título do dia
+            if ($titleElement.length && themeOfDay) {
+                $titleElement.text('Especial > ' + themeOfDay);
+            }
+
+            // Renderização dos cards
+            const html = selected.map(item => `
+        <div class="album-card" data-id="${item.id || ''}" data-type="featured">
+            <article class="box post">
+                <div class="content">
+                    <div class="image fit md-ripples ripples-light" data-position="center">
+                        <img src="${item.image || ''}" alt="${escapeHtml(item.title || '')}" loading="lazy">
+                    </div>
+                    <ul class="icons">
+                        <li><a href="#" class="icon solid fa-play"></a></li>
+                    </ul>
+                </div>
+                <header class="align-left">
+                    <h3 class="album-artist">${escapeHtml(item.artist || '')}</h3>
+                    <p class="album-title">${escapeHtml(item.title || '')}</p>
+                    <p class="album-theme">${escapeHtml(item.theme || '')}</p>
+                </header>
+            </article>
+        </div>
+    `).join('');
+
+            $container.html(html);
+
+            $container.find('.album-card').on('click', function() {
+                const id = parseInt($(this).data('id'));
+                const type = $(this).data('type');
+                if (!isNaN(id)) openPlayer(id, type);
             });
         }
 
@@ -1277,13 +1382,12 @@
         // ==================================================================
 
         // Related Albums
-        function showRelatedAlbums(artist, excludeId) {
+        function showRelatedAlbums(artist, currentId) {
             const $container = $('#relatedAlbums');
             const $title = $('#relatedArtistName');
 
             if (!$container.length || !$title.length) return;
 
-            // Combina todas as coleções
             const allItems = [
                 ...(currentData.albums || []),
                 ...(currentData.singles || []),
@@ -1294,39 +1398,47 @@
                 ...(currentData.instrumental || [])
             ];
 
-            // Filtra por artista, excluindo o álbum atual
-            const related = allItems.filter(item => item.artist === artist && item.id !== excludeId);
+            // Todos os álbuns do artista
+            const artistAlbums = allItems.filter(item => item.artist === artist);
 
             $title.text(artist);
 
-            if (related.length === 0) {
-                $container.html('<p>Nenhum outro álbum encontrado.</p>');
+            if (artistAlbums.length === 0) {
+                $container.html('<p>Nenhum álbum encontrado.</p>');
                 return;
             }
 
-            $container.html(related.map(album => `
-				<div class="album-card" data-id="${album.id}" data-type="featured">
-					<article class="box post md-ripples ripples-light">
-						<div class="contents">
-							<div class="image fit" data-position="center">
-								<img src="${album.image}" alt="${escapeHtml(album.title)}" loading="lazy">
-							</div>
-						</div>
-						<header class="align-left">
-							<h3 class="album-title">${escapeHtml(album.title)}</h3>
-							<p class="album-artist">${escapeHtml(album.artist)}</p>
-						</header>
-					</article>
-				</div>
-			`).join(''));
+            $container.html(artistAlbums.map(album => `
+        <div class="album-card ${album.id === currentId ? 'current' : ''}" data-id="${album.id}" data-type="featured">
+            <article class="box post avg md-ripples ripples-light">
+                <div class="content">
+                    <div class="image fit" data-position="center">
+                        <img src="${album.image}" alt="${escapeHtml(album.title)}" loading="lazy">
+                    </div>
+					<ul class="icons">
+						<li class="alt1"><a href="#" class="icon solid fa-play"></a></li>
+						<li class="alt2"><a href="#" class="icon wave"><span></span><span></span><span></span></span></a></li>
+					</ul>
+                </div>
+                <header class="align-left">
+					<h3 class="album-artist">${escapeHtml(album.artist)}</h3>
+                    <p class="album-title">${escapeHtml(album.title)}</p>
+                </header>
+            </article>
+        </div>
+    `).join(''));
+	
+			// Aplica fillColor apenas no container atual
+            $container.find('.avg').fillColor({
+                type: 'avg'
+            });
 
-            // Reaplica eventos de clique nos novos cards
+            // Reaplica eventos de clique
             $container.find('.album-card').on('click', function() {
                 const id = parseInt($(this).data('id'));
                 const type = $(this).data('type');
                 openPlayer(id, type);
             });
-
         }
 
         function toggleRelated(li) {
@@ -1347,30 +1459,44 @@
             toggleRelated(this);
         });
 
-        // Toggle Player Body
-        function togglePlayerBody(li) {
+        // ==================================================================
+        // ALTERNAR O CORPO DO PLAYER
+        // ==================================================================
+
+        // Alterna o corpo do player
+        function togglePlayerBody() {
             const $playerPage = $("#player-page");
             const $mainPanel = $("#main-panel");
             const $sidePanel = $("#side-panel");
+            const $arrow = $("#player-bar .fa-long-arrow-down"); // seta única
 
             if (!$playerPage.length) return;
 
+            // alterna visibilidade do player
             $playerPage.toggleClass("showmore");
-
             const isOpen = $playerPage.hasClass("showmore");
 
             if ($mainPanel.length) $mainPanel.css('display', isOpen ? "block" : "none");
             if ($sidePanel.length) $sidePanel.css('display', isOpen ? "block" : "none");
 
-            if (li) {
-                $(li).toggleClass("fa-long-arrow-up", !isOpen);
-                $(li).toggleClass("fa-long-arrow-down", isOpen);
-            }
+            // alterna a rotação da seta
+            $arrow.toggleClass("rotated", isOpen);
         }
 
-        $(document).on("click", ".fa-long-arrow-up, .fa-long-arrow-down", function(event) {
-            event.preventDefault();
-            togglePlayerBody(this);
+        // Clique no ícone
+        $(document).on("click", "#player-bar .fa-long-arrow-down", function(e) {
+            e.preventDefault();
+            togglePlayerBody();
+        });
+
+        // Quando clicar num album-card → abre player e garante seta pra baixo
+        $(document).on("click", ".album-card", function() {
+            const $playerPage = $("#player-page");
+            const $arrow = $("#player-bar .fa-long-arrow-down");
+
+            $playerPage.addClass("showmore");
+            $("#main-panel, #side-panel").css('display', "block");
+            $arrow.addClass("rotated"); // seta desce
         });
 
         // Content transition
@@ -1465,7 +1591,7 @@
             });
         }
 
-		 // ==================================================================
+        // ==================================================================
         // PROGRESS BAR
         // ==================================================================
 
@@ -1480,7 +1606,7 @@
 				<div id="spinner" aria-label="Carregando">
 					<div class="inner">
 						<svg viewBox="0 0 50 50" class="spinner-svg">
-							<circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+							<circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="3"></circle>
 						</svg>
 					</div>
 				</div>
@@ -1490,7 +1616,7 @@
         // Estilo único para progress-bar e spinner
         const style = `
 			<style>
-				#progress-bar {position: fixed;top: 0;left: 0;height: 3px;width: 0%;background: #f00;z-index: 100001;opacity: 0;}.player-embed {position: relative;min-height: 300px;}#spinner {position: relative;background: #000;height: 100%;width: 100%;display: none;z-index: 1;}.inner {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 10;}.spinner-svg {width: 48px;height: 48px;animation: rotate 2s linear infinite;}.spinner-path {stroke: #f00;stroke-linecap: round;animation: dash 1.5s ease-in-out infinite;}@keyframes rotate {100% {transform: rotate(360deg);}}@keyframes dash {0% {stroke-dasharray: 1, 150;stroke-dashoffset: 0;}50% {stroke-dasharray: 90, 150;stroke-dashoffset: -35;}100% {stroke-dasharray: 90, 150;stroke-dashoffset: -124;}}
+				#progress-bar {position: fixed;top: 0;left: 0;height: 2px;width: 0%;background: #f00;z-index: 100001;opacity: 0;}.player-embed {position: relative;min-height: 300px;}#spinner {position: relative;background: #000;height: 100%;width: 100%;display: none;z-index: 1;}.inner {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 10;}.spinner-svg {width: 48px;height: 48px;animation: rotate 2s linear infinite;}.spinner-path {stroke: #f00;stroke-linecap: round;animation: dash 1.5s ease-in-out infinite;}@keyframes rotate {100% {transform: rotate(360deg);}}@keyframes dash {0% {stroke-dasharray: 1, 150;stroke-dashoffset: 0;}50% {stroke-dasharray: 90, 150;stroke-dashoffset: -35;}100% {stroke-dasharray: 90, 150;stroke-dashoffset: -124;}}
 			</style>
 		`;
         $('head').append(style);
