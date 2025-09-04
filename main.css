@@ -156,10 +156,6 @@ input, select, textarea {
 		font-style: italic;
 	}
 
-	p {
-		margin: 0 0 2em 0;
-	}
-
 	h1, h2, h3, h4, h5, h6 {
 		color: #ffffff;
 		font-weight: 700;
@@ -501,7 +497,7 @@ input, select, textarea {
 	section .tab-content {
 		display: none;
 	}
-	
+
 	section .tab-content.active {
 		display: block;
 		animation: fadeIn 0.5s ease-in-out;
@@ -511,6 +507,11 @@ input, select, textarea {
 		from { opacity: 0; transform: translateY(20px); }
 		to { opacity: 1; transform: translateY(0); }
 	}
+	
+	section .tab-content.active {
+		display: block;
+	}
+	
 
 	header h3, header p {
 		display: -webkit-box;
@@ -1616,6 +1617,44 @@ input, select, textarea {
 			.wrapper.style:first-child {
 				padding-top: 0
 			}
+			
+/* Dropdown Search */
+
+	.dropdown-results {
+		background-color: #030303;
+		border-radius: 0.75em;
+		position: absolute;
+		max-height: 20em;
+		left: 0;
+		top: 3.75em;
+		width: 100%;
+		overflow-y: auto;
+	}
+
+		.dropdown-results .result-item {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 1em;
+			cursor: pointer;
+			border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+		}
+
+			.dropdown-results .result-item:hover {
+				background-color: #0d0d0d;
+			}
+
+		.dropdown-results .result-thumb {
+			width: 3em;
+			height: 3em;
+			object-fit: cover;
+			border-radius: 0.25em;
+		}
+
+		.dropdown-results .result-info {
+			display: flex;
+			flex-direction: column;
+		}
 
 /* Header */
 
@@ -2053,7 +2092,6 @@ input, select, textarea {
 		#side-panel .album-details {
 			background-color: #111;
 			border-radius: 0.5em;
-			height: 100%;
 			padding: 1em;
 		}
 
@@ -2078,7 +2116,9 @@ input, select, textarea {
 				#side-panel .details-grid .detail-item #detailYear, 
 				#side-panel .details-grid .detail-item #detailLabel, 
 				#side-panel .details-grid .detail-item #detailCountry, 
-				#side-panel .details-grid .detail-item #detailFormat				{
+				#side-panel .details-grid .detail-item #detailFormat,
+				#side-panel .details-grid .detail-item #detailGenre,
+				#side-panel .details-grid .detail-item #detailStyle {
 					color: #ffffff;
 					font-weight: 700;
 				}
@@ -2344,6 +2384,10 @@ input, select, textarea {
 						-ms-transform: rotate(0deg);
 						transform: rotate(0deg);
 					}
+					
+				#player-bar ul.icons li a.fa-list.active {
+					background-color: #1b1b1b;
+				}
 
 /* Menu */
 
