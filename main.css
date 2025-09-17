@@ -704,7 +704,6 @@ input, select, textarea {
 	.box {
 		position: relative;
 		border-radius: 0.5em;
-		cursor: pointer;
 	}
 
 		.box.alt {
@@ -838,6 +837,7 @@ input, select, textarea {
 		border: 0;
 		display: inline-block;
 		position: relative;
+		cursor: pointer;
 	}
 
 		.image[data-position] img {
@@ -1851,7 +1851,7 @@ input, select, textarea {
 
 	#banner {
 		position: absolute;
-		height: 60vh;
+		height: 80vh;
 		left: 0;
 		top: 0;
 		width: 100%;
@@ -1954,6 +1954,51 @@ input, select, textarea {
 	}
 
 /* ALT */
+
+	#allArtists .box {
+		padding: 1em;
+		height: 100%;
+	}
+
+		#allArtists .box:before, #relatedAlbums .box:before {
+			content: "";
+			position: absolute;
+			height: 100%;
+			left: 0;
+			top: 0;
+			width: 100%;
+		}
+		
+			#allArtists .box:before {
+				background-image: linear-gradient(to bottom, rgba(3, 3, 3, 0.1) 50%, #030303 150%);
+			}
+			
+			#relatedAlbums .box:before {
+				background-color: rgba(0, 0, 0, 0.3);
+			}
+		
+		#allArtists .box header, #relatedAlbums .box header {
+			position: relative;
+			z-index: 1;
+		}
+
+		#allArtists .box .image.fit.circles, 
+		#allArtists .box .image.fit.circles img {
+			-webkit-transition: border-radius 300ms ease-out;
+			-moz-transition: border-radius 300ms ease-out;
+			-o-transition: border-radius 300ms ease-out;
+			transition: border-radius 300ms ease-out;
+			border-radius: 100%;
+		}
+
+			#allArtists .box .image.fit.circles:hover, 
+			#allArtists .box .image.fit.circles img:hover {
+				border-radius: 0.5em;
+			}
+
+		#allArtists .box .image.fit, #allArtists .box .image.fit:after {
+			background-color: transparent;
+		}
 
 	#featuredAlbums .image.fit {
 		padding-top: 65%;
@@ -2154,7 +2199,7 @@ input, select, textarea {
 			gap: 1em;
 		}
 
-			#relatedContainer #relatedAlbums .album-card .box {
+			#relatedContainer #relatedAlbums .play-album .box {
 				display: -moz-flex;
 				display: -webkit-flex;
 				display: -ms-flex;
@@ -2176,34 +2221,34 @@ input, select, textarea {
 				gap: 1em;
 			}
 
-				#relatedContainer #relatedAlbums .album-card .box:hover {
+				#relatedContainer #relatedAlbums .play-album .box:hover {
 					background: rgba(255,255,255,0.2);
 				}
 
-				#relatedContainer #relatedAlbums .album-card .box .image {
+				#relatedContainer #relatedAlbums .play-album .box .image {
 					width: 4em;
 					height: 4em;
 					border-radius: 0.5em;
 					margin: 0;
 				}
 
-					#relatedContainer #relatedAlbums .album-card .box .image img {
+					#relatedContainer #relatedAlbums .play-album .box .image img {
 						border-radius: 0.5em;
 					}
 
-					#relatedContainer #relatedAlbums .album-card .box .image:after {
+					#relatedContainer #relatedAlbums .play-album .box .image:after {
 						border-radius: 0.5em;
 					}
 
-				#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt1 {
+				#relatedContainer #relatedAlbums .play-album .box ul.icons li.alt1 {
 					padding: 0
 				}
 
-					#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt1 a.icon {
+					#relatedContainer #relatedAlbums .play-album .box ul.icons li.alt1 a.icon {
 						font-size: 1.25em
 					}
 
-				#relatedContainer #relatedAlbums .album-card .box ul.icons li a.icon {
+				#relatedContainer #relatedAlbums .play-album .box ul.icons li a.icon {
 					transform: none;
 					height: 2.25em;
 					width: 2.25em;
@@ -2211,42 +2256,42 @@ input, select, textarea {
 					border: 0;
 				}
 
-				#relatedContainer #relatedAlbums .album-card.current .box {
+				#relatedContainer #relatedAlbums .play-album.current .box {
 					background: rgba(255,255,255,0.2);
 				}
 
-					#relatedContainer #relatedAlbums .album-card.current .box .image:after {
+					#relatedContainer #relatedAlbums .play-album.current .box .image:after {
 						background: rgba(0,0,0, 0.5)
 					}
 
-					#relatedContainer #relatedAlbums .album-card.current .box ul.icons {
+					#relatedContainer #relatedAlbums .play-album.current .box ul.icons {
 						opacity: 1
 					}
 
-						#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt1, 
-						#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt2 {
+						#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt1, 
+						#relatedContainer #relatedAlbums .play-album .box ul.icons li.alt2 {
 							display: none;
 						}
 
-						#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 {
+						#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt2 {
 							display: block;
 						}
 
-							#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 a.icon.wave {
+							#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt2 a.icon.wave {
 								background-color: transparent
 							}
 
-								#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 a.icon.wave span {
+								#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt2 a.icon.wave span {
 									background-color: #fff
 								}
 
-				#relatedContainer #relatedAlbums .album-card .box header h3, 
-				#relatedContainer #relatedAlbums .album-card .box header p {
+				#relatedContainer #relatedAlbums .play-album .box header h3, 
+				#relatedContainer #relatedAlbums .play-album .box header p {
 					font-size: 0.9em;
 					color: #ffffff;
 				}
 
-				#relatedContainer #relatedAlbums .album-card .box header p {
+				#relatedContainer #relatedAlbums .play-album .box header p {
 					margin: 0
 				}
 
