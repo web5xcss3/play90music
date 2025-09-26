@@ -1177,7 +1177,7 @@ input, select, textarea {
 
 			ul.icons li .icon {
 				border-radius: 5em;
-				border: solid 1px rgba(255, 255, 255, 0.1);
+				border: solid 1px rgba(255, 255, 255, 0.3);
 				color: #ffffff !important;
 				display: inline-block;
 				font-size: 1.25em;
