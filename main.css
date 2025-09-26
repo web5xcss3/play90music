@@ -1954,6 +1954,18 @@ input, select, textarea {
 	}
 
 /* ALT */
+	
+	#home header.major {
+		margin: 0 0 1em 0;
+	}
+		
+		@media screen and (max-width: 736px) {
+			
+			#home header.major {
+				margin: 0;
+			}
+			
+		}
 
 	#allArtists .box {
 		padding: 1em;
@@ -2199,7 +2211,7 @@ input, select, textarea {
 			gap: 1em;
 		}
 
-			#relatedContainer #relatedAlbums .play-album .box {
+			#relatedContainer #relatedAlbums .album-card .box {
 				display: -moz-flex;
 				display: -webkit-flex;
 				display: -ms-flex;
@@ -2221,34 +2233,34 @@ input, select, textarea {
 				gap: 1em;
 			}
 
-				#relatedContainer #relatedAlbums .play-album .box:hover {
+				#relatedContainer #relatedAlbums .album-card .box:hover {
 					background: rgba(255,255,255,0.2);
 				}
 
-				#relatedContainer #relatedAlbums .play-album .box .image {
+				#relatedContainer #relatedAlbums .album-card .box .image {
 					width: 4em;
 					height: 4em;
 					border-radius: 0.5em;
 					margin: 0;
 				}
 
-					#relatedContainer #relatedAlbums .play-album .box .image img {
+					#relatedContainer #relatedAlbums .album-card .box .image img {
 						border-radius: 0.5em;
 					}
 
-					#relatedContainer #relatedAlbums .play-album .box .image:after {
+					#relatedContainer #relatedAlbums .album-card .box .image:after {
 						border-radius: 0.5em;
 					}
 
-				#relatedContainer #relatedAlbums .play-album .box ul.icons li.alt1 {
+				#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt1 {
 					padding: 0
 				}
 
-					#relatedContainer #relatedAlbums .play-album .box ul.icons li.alt1 a.icon {
+					#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt1 a.icon {
 						font-size: 1.25em
 					}
 
-				#relatedContainer #relatedAlbums .play-album .box ul.icons li a.icon {
+				#relatedContainer #relatedAlbums .album-card .box ul.icons li a.icon {
 					transform: none;
 					height: 2.25em;
 					width: 2.25em;
@@ -2256,42 +2268,42 @@ input, select, textarea {
 					border: 0;
 				}
 
-				#relatedContainer #relatedAlbums .play-album.current .box {
+				#relatedContainer #relatedAlbums .album-card.current .box {
 					background: rgba(255,255,255,0.2);
 				}
 
-					#relatedContainer #relatedAlbums .play-album.current .box .image:after {
+					#relatedContainer #relatedAlbums .album-card.current .box .image:after {
 						background: rgba(0,0,0, 0.5)
 					}
 
-					#relatedContainer #relatedAlbums .play-album.current .box ul.icons {
+					#relatedContainer #relatedAlbums .album-card.current .box ul.icons {
 						opacity: 1
 					}
 
-						#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt1, 
-						#relatedContainer #relatedAlbums .play-album .box ul.icons li.alt2 {
+						#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt1, 
+						#relatedContainer #relatedAlbums .album-card .box ul.icons li.alt2 {
 							display: none;
 						}
 
-						#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt2 {
+						#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 {
 							display: block;
 						}
 
-							#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt2 a.icon.wave {
+							#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 a.icon.wave {
 								background-color: transparent
 							}
 
-								#relatedContainer #relatedAlbums .play-album.current .box ul.icons li.alt2 a.icon.wave span {
+								#relatedContainer #relatedAlbums .album-card.current .box ul.icons li.alt2 a.icon.wave span {
 									background-color: #fff
 								}
 
-				#relatedContainer #relatedAlbums .play-album .box header h3, 
-				#relatedContainer #relatedAlbums .play-album .box header p {
+				#relatedContainer #relatedAlbums .album-card .box header h3, 
+				#relatedContainer #relatedAlbums .album-card .box header p {
 					font-size: 0.9em;
 					color: #ffffff;
 				}
 
-				#relatedContainer #relatedAlbums .play-album .box header p {
+				#relatedContainer #relatedAlbums .album-card .box header p {
 					margin: 0
 				}
 
