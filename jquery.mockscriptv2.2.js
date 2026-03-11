@@ -1044,7 +1044,7 @@
         }
 
         // ==================================================================
-        // PLAYER RENDER ALBUMS
+        // ALBUMS BY ARTISTS
         // ==================================================================
 
         // Funções de renderização suballAlbums
@@ -1065,7 +1065,7 @@
 
             if (!$container.length || !$title.length) return;
 
-            $title.text(`Álbuns de ${artist}`);
+			$title.html(`Álbuns de <span class="artist-name">${artist}</span>`);
             $container.html(albums.map(album => {
                 let albumType = 'album';
                 if ((currentData.singles || []).find(s => s.id === album.id)) albumType = 'singles';
@@ -1307,7 +1307,7 @@
             const $title = $('#yearAlbumsTitle');
             if (!$container.length || !$title.length) return;
 
-            $title.text(`Álbuns de ${year}`);
+			$title.html(`Álbuns de <span class="artist-year">${year}</span>`);
             $container.html(albums.map(album => {
                 let albumType = 'albums';
                 if ((currentData.singles || []).find(s => s.id === album.id)) albumType = 'singles';
